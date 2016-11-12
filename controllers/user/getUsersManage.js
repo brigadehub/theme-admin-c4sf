@@ -2,8 +2,6 @@
  *  Dependencies
  */
 
-var Users = require('models/Users')
-
 /**
  *  Exports
  */
@@ -23,6 +21,7 @@ module.exports = {
  */
 
 function getUsersManage (req, res) {
+  var Users = req.models.Users
   console.log('getUsersManage')
   Users.find({}, function (err, foundUsers) {
     if (err) console.error(err)

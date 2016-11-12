@@ -1,4 +1,3 @@
-var Brigade = require('models/Brigade')
 
 /**
  *  Exports
@@ -18,6 +17,7 @@ module.exports = {
  *  Controller
  */
 function postBrigade (req, res, next) {
+  var Brigade = req.models.Brigade
   res.locals.brigade.name = req.body.name
   res.locals.brigade.location.general = req.body.location
   res.locals.brigade.url = req.body.url

@@ -2,8 +2,6 @@
  *  Dependencies
  */
 
-var Users = require('models/Users')
-
 /**
  *  Exports
  */
@@ -24,6 +22,7 @@ module.exports = {
 
 // TODO(therebelrobot): this logic look SUUUUUPER broken. Will need to readress.
 function postUsersManage (req, res) {
+  var Users = req.models.Users
   Users.find({}, function (err, foundUsers) {
     if (err) console.log(err)
     for (var i = 0; i < foundUsers.length; i++) {

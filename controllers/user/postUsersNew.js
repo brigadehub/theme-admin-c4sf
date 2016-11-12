@@ -2,8 +2,6 @@
  *  Dependencies
  */
 
-var Users = require('models/Users')
-
 /**
  *  Exports
  */
@@ -23,6 +21,7 @@ module.exports = {
  */
 
 function postUsersNew (req, res) {
+  var Users = req.models.Users
   Users.find({username: req.body.username, 'profile.name': req.body.name}, (err, foundUser) => {
     if (err) console.log(err)
     else if (foundUser.length > 0) {
