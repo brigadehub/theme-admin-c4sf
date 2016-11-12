@@ -1,0 +1,19 @@
+{
+  "name": "brigadehub-admin-c4sf",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/brigadehub/theme-admin-c4sf.git"
+  },
+  "author": "Ozzy Haven <npm@therebelrobot.com> (@therebelrobot)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brigadehub/theme-admin-c4sf/issues"
+  },
+  "homepage": "https://github.com/brigadehub/theme-admin-c4sf#readme"
+}
