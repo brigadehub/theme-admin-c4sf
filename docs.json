@@ -1,0 +1,21 @@
+{
+ "trustoss": "0.1.0",
+ "name": "brigadehub-admin-c4sf",
+ "repository": "ssh://git@github.com/brigadehub/theme-admin-c4sf.git",
+ "status": "alpha",
+ "contact": "Ozzy Haven (@therebelrobot) <github@therebelrobot.com>",
+ "homepage": "https://brigadehub.github.io",
+ "docroot": "docs/",
+ "readme": "TrustOSS v0.1",
+ "contributing": "Contribute.md",
+ "license": "MIT",
+ "changelog": "keepachangelog",
+ "coc": "Contributor Covenant",
+ "assets": "./.assets",
+ "governance": "./.governance",
+ "readme_location": "../README.md",
+ "contributing_location": "CONTRIBUTING.md",
+ "license_location": "LICENSE.md",
+ "changelog_location": "CHANGELOG.md",
+ "coc_location": "CODEOFCONDUCT.md"
+}
