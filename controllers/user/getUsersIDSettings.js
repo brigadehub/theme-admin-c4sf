@@ -21,7 +21,7 @@ module.exports = {
  */
 
 function getUsersIDSettings (req, res) {
-  res.render(res.locals.brigade.theme.slug + '/views/users/settings', {
+  res.render(res.theme.public + '/views/users/settings', {
     view: 'user-settings',
     userId: req.params.userId,
     title: 'IDSettings Users',

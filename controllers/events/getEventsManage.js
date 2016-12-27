@@ -21,7 +21,7 @@ function getEventsManage (req, res) {
         event.localstart = moment.unix(event.start).tz(res.locals.brigade.location.timezone).format('ha z MMMM DD, YYYY')
         return event
       })
-      res.render(res.locals.brigade.theme.slug + '/views/events/manage', {
+      res.render(res.theme.public + '/views/events/manage', {
         view: 'event-list-manage',
         title: 'Manage Events',
         allEvents: mappedEvents,

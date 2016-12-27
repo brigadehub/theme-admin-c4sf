@@ -12,7 +12,7 @@ module.exports = {
 }
 
 function getEventsID (req, res) {
-  res.render(res.locals.brigade.theme.slug + '/views/events/event', {
+  res.render(res.theme.public + '/views/events/event', {
     view: 'event',
     eventID: req.params.eventID,
     title: 'Events',

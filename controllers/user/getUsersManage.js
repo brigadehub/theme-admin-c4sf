@@ -25,7 +25,7 @@ function getUsersManage (req, res) {
   console.log('getUsersManage')
   Users.find({}, function (err, foundUsers) {
     if (err) console.error(err)
-    res.render(res.locals.brigade.theme.slug + '/views/users/manage', {
+    res.render(res.theme.public + '/views/users/manage', {
       currentuser: req.user,
       view: 'user-list-manage',
       title: 'Manage Users',

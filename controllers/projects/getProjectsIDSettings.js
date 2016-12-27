@@ -20,7 +20,7 @@ function getProjectsIDSettings (req, res) {
     if (err) console.error(err)
     Users.find({}, function (err, allUsers) {
       if (err) console.error(err)
-      res.render(res.locals.brigade.theme.slug + '/views/projects/settings', {
+      res.render(res.theme.public + '/views/projects/settings', {
         view: 'project-settings',
         project: foundProject[0],
         users: allUsers,

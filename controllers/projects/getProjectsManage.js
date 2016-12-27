@@ -19,7 +19,7 @@ function getProjectsManage (req, res) {
   Projects.find({brigade: res.locals.brigade.slug}, function (err, foundProjects) {
     if (err) console.error(err)
 
-    res.render(res.locals.brigade.theme.slug + '/views/projects/manage', {
+    res.render(res.theme.public + '/views/projects/manage', {
       view: 'project-list-manage',
       title: 'Manage Projects',
       brigade: res.locals.brigade,

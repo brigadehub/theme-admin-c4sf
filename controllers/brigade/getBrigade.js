@@ -16,7 +16,7 @@ module.exports = {
  *  Controller
  */
 function getBrigade (req, res) {
-  res.render(res.locals.brigade.theme.slug + '/views/brigade', {
+  res.render(res.theme.public + '/views/brigade', {
     view: 'brigade-manage',
     title: 'Brigade',
     brigade: res.locals.brigade

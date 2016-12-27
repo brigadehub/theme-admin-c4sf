@@ -21,7 +21,7 @@ module.exports = {
  */
 
 function getUserNew (req, res) {
-  res.render(res.locals.brigade.theme.slug + '/views/users/new', {
+  res.render(res.theme.public + '/views/users/new', {
     view: 'user-new',
     title: 'New Users',
     brigade: res.locals.brigade

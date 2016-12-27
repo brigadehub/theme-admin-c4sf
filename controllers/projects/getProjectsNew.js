@@ -17,7 +17,7 @@ function getProjectsNew (req, res) {
 
   Users.find({}, function (err, allUsers) {
     if (err) console.error(err)
-    res.render(res.locals.brigade.theme.slug + '/views/projects/new', {
+    res.render(res.theme.public + '/views/projects/new', {
       view: 'project-new',
       users: allUsers,
       title: 'New Project',

@@ -9,7 +9,7 @@ module.exports = {
 }
 
 function getEventsNew (req, res) {
-  res.render(res.locals.brigade.theme.slug + '/views/events/new', {
+  res.render(res.theme.public + '/views/events/new', {
     view: 'event-new',
     title: 'New Events',
     brigade: res.locals.brigade
