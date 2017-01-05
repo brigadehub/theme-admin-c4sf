@@ -1,3 +1,5 @@
+const npmSearch = require('npm-module-search')
+
 /**
  *  Exports
  */
@@ -16,9 +18,17 @@ module.exports = {
  *  Controller
  */
 function getBrigade (req, res) {
-  res.render(res.theme.public + '/views/brigade', {
-    view: 'brigade-manage',
-    title: 'Brigade',
-    brigade: res.locals.brigade
+  npmSearch.search('brigadehub-admin', {limit: 100}, function (err, adminModules) {
+    console.log('Here are 100 adminModules', adminModules)
+    npmSearch.search('brigadehub-public', {limit: 100}, function (err, publicModules) {
+      console.log('Here are 100 publicModules', publicModules)
+      res.render(res.theme.public +'/views/brigade', {
+        view: 'brigade-manage',
+        title: 'Brigade',
+        brigade: res.locals.brigade,
+        publicModules,
+        adminModules
+      })
+    })
   })
 }
