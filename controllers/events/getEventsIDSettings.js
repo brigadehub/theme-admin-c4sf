@@ -7,7 +7,7 @@ module.exports = {
   endpoint: '/events/:eventId/settings',
   authenticated: true,
   roles: ['core', 'superAdmin'],
-  scopes: ['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
+  scopes: ['user:email', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
   middleware: [],
   controller: getEventsIDSettings
 }
@@ -18,7 +18,7 @@ function getEventsIDSettings (req, res) {
       if (err) console.log(err)
       var startDigits = moment.unix(foundEvent[0].start).tz(res.locals.brigade.location.timezone).format('MMM, D, YYYY, HH, mm').split(',')
       var endDigits = moment.unix(foundEvent[0].end).tz(res.locals.brigade.location.timezone).format('MMM, D, YYYY, HH, mm').split(',')
-      res.render(res.theme.public + '/views/events/settings', {
+      res.render(res.theme.admin + '/views/events/settings', {
         view: 'event-settings',
         event: foundEvent[0],
         title: 'Event Settings',

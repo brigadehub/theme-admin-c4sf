@@ -1,0 +1,27 @@
+[data-view='blog-post'] {
+  .blog-body{
+    blockquote {
+      padding: .5rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      border-left: .25rem solid #eceeef;
+      ul{
+        list-style-type: cjk-ideographic;
+        li {
+          font-size: 80%;
+          color: #818a91;
+        }
+      }
+
+    }
+    img {
+      margin:auto;
+      margin-top:20px;
+      margin-bottom:20px;
+    }
+  }
+  .post-attribution{
+    font-size: 16px;
+    color: #818a91;
+  }
+}

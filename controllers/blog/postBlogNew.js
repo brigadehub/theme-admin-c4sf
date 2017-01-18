@@ -45,7 +45,7 @@ function postBlogNew (req, res) {
     if (err) {
       req.session.blogpostplaintextcontent = req.body.content
       req.flash('errors', { msg: err.message })
-      return res.redirect(req.session.returnTo || '/blog/new')
+      return res.redirect(req.session.returnTo || '/admin/blog/new')
     } else {
       req.session.blogpostplaintextcontent = null
       if (req.body.published === 'true') {

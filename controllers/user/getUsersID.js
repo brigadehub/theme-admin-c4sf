@@ -18,7 +18,7 @@ module.exports = {
  */
 
 function getUsersID (req, res) {
-  res.render(res.theme.public + '/views/users/user', {
+  res.render(res.theme.admin + '/views/users/user', {
     view: 'user',
     userId: req.params.userId,
     title: 'Users',

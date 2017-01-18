@@ -1,0 +1,62 @@
+extends ../layout
+
+block content
+  .row
+    .page-header
+      h3 Add New User
+      form(action='/users/new', method='POST')
+        input(type='hidden', name='_csrf', value=_csrf)
+        .form-group.row
+          label.col-sm-3.col-form-label(for='name') Name
+          .col-sm-7
+            input.form-control(type='text', name='name', id='name', value='',required)
+        .form-group.row
+          label.col-sm-3.col-form-label(for='username') Username
+          .col-sm-7
+            input.form-control(type='text', name='username', id='username', value='',required)
+        .form-group.row
+          label.col-sm-3.col-form-label(for='email') Email
+          .col-sm-7
+            input.form-control(type='email', name='email', id='email', value='')
+        .form-group.row
+          label.col-sm-3.col-form-label(for='position') Position
+          .col-sm-7
+            input.form-control(type='text', name='position', id='position', value='')
+        .form-group.row
+          label.col-sm-3.col-form-label(for='location') Location
+          .col-sm-7
+            input.form-control(type='text', name='location', id='location', value='')
+        .form-group.row
+          label.col-sm-3 Permissions
+          .col-sm-7
+            .form-check.col-sm-3
+              label.form-check-label
+                input(type='checkbox', name='read', id='read', class='form-check-input', value='read', checked=true)
+                | Read
+            .form-check.col-sm-3
+              label.form-check-label
+                input(type='checkbox', name='blog', id='blog', class='form-check-input', value='blog')
+                | Blog
+            .form-check.col-sm-3
+              label.form-check-label
+                input(type='checkbox', name='project', id='project', class='form-check-input', value='project')
+                | Project
+            .form-check.col-sm-3
+              label.form-check-label
+                input(type='checkbox', name='lead', id='lead', class='form-check-input', value='lead')
+                | Lead
+            .form-check.col-sm-3
+              label.form-check-label
+                input(type='checkbox', name='core', id='core', class='form-check-input', value='core')
+                | Core
+            .form-check.col-sm-3
+              label.form-check-label
+                input(type='checkbox', name='coreLead', id='coreLead', class='form-check-input', value='coreLead')
+                | CoreLead
+            .form-check.col-sm-3
+              label.form-check-label
+                input(type='checkbox', name='superAdmin', id='superAdmin', class='form-check-input', value='superAdmin')
+                | SuperAdmin
+        .form-group.row
+          .col-sm-offset-3.col-sm-4
+            button.btn.btn-primary(type='submit') Add User

@@ -1,0 +1,10 @@
+mixin userDropdown(opts)
+  select.form-control.user-select(class=opts.slug+'-select', name=opts.slug, id=opts.slug, multiple=opts.multiple)
+    if opts.includeUnattributed
+      option(value='') None (unattributed)
+    for user in opts.users
+      option(value=user.username, data-img=user.profile.picture, selected=opts.selected(user))
+        if(user.profile.name)
+          =user.profile.name+' ('+user.username+')'
+        else
+          ='('+user.username+')'

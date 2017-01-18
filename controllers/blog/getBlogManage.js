@@ -39,7 +39,7 @@ function getBlogManage (req, res) {
     User.find({}, function (err, users) {
       if (err) console.log(err)
       var usernames = users.map(function (user) { return user.username })
-      res.render(res.theme.public + '/views/blog/manage', {
+      res.render(res.theme.admin + '/views/blog/manage', {
         view: 'blog-list-manage',
         title: 'Manage Blog',
         brigade: res.locals.brigade,

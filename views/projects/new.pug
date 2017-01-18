@@ -1,0 +1,153 @@
+extends ../layout
+
+block content
+  style(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css")
+  style(rel="stylesheet").
+    [data-view='project-new'] .avatar {
+      width:30px;
+      filter: grayscale(100%) brightness(200%);
+    }
+    [data-view='project-new'] .dropdown-menu label.checkbox {
+      padding:5px;
+    }
+    [data-view='project-new'] .dropdown-menu a {
+      text-decoration:none;
+      color:#555;
+      cursor:pointer;
+    }
+    [data-view='project-new'] .dropdown-menu .checkbox input[type="checkbox"] {
+      display:none;
+    }
+    [data-view='project-new'] .dropdown-menu .checkbox input[type="checkbox"]:checked + img {
+      filter: grayscale(0%) brightness(100%);
+    }
+  .row.breadcrumbs
+    .col-sm-12
+      a(href='/')= brigade.name
+      | &nbsp;&nbsp;/&nbsp;
+      a(href='/projects') Projects
+      | &nbsp;&nbsp;/&nbsp;
+      a(href='/projects/new') New Project
+  .page-header
+    h1.page-title New Project
+    hr
+    form.row.form-horizontal(action='/projects/new', method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group.row
+        label.col-sm-3.control-label(for='title') Project title
+        .col-sm-7
+          input.form-control(type='text', name='title', id='title', placeholder='Awesome Project Name')
+      .form-group.row
+        label.col-sm-3.control-label(for='description') Project Description
+        .col-sm-7
+          input.form-control(type='text', name='description', id='description', placeholder='This project is the best thing ever.')
+          em A short description of your project, used on the project list page
+      .form-group.row
+        label.col-sm-3.control-label(for='brigade') Home Brigade
+        .col-sm-7
+          select.form-control(id="brigade", name="brigade")
+            option(value=brigade.slug, selected=true)=brigade.name
+          em This is where your project is primarily being worked on
+      .form-group.row
+        label.col-sm-3.control-label(for='active') Active Project?
+        .col-sm-7
+          input(type='checkbox', name='active', id='active')
+      .form-group.row
+        label.col-sm-3.control-label(for='status') Lifecycle Status
+        .col-sm-7
+          select.form-control(id="status", name="status")
+            for status in ['proposed', 'discovery', 'prototype', 'mvp', 'alpha', 'beta', 'live']
+              option(value=status, selected=(status == 'proposed'))=status
+          em The lifecycle status of your project may vary; if it's a new project/idea, select "proposed"
+      .form-group.row
+        label.col-sm-3.control-label(for='geography') Location
+        .col-sm-7
+          input.form-control(type='text', name='geography', id='geography', placeholder='Awesome town, USA')
+          em Does your project serve a particular community? List that here, otherwise leave blank.
+      .form-group.row
+        label.col-sm-3.control-label(for='politicalEntity') Community Partner
+        .col-sm-7
+          input.form-control(type='text', name='politicalEntity', id='politicalEntity', placeholder='City of Awesome, LLC')
+          em Have you partnered with a separate community entity (e.g. A government agency, or another non-profit)? List that here, otherwise, leave blank.
+      .form-group.row
+        label.col-sm-3.control-label(for='homepage') Homepage
+        .col-sm-7
+          input.form-control(type='text', name='homepage', id='homepage', placeholder='http://example.com')
+          em Should be a fully qualified URL; Optional
+      .form-group.row
+        label.col-sm-3.control-label(for='repository') GitHub Repo
+        .col-sm-7
+          input.form-control(type='text', name='repository', id='repository', placeholder='https://github.com/'+brigade.slug+'/example')
+          em Should be a fully qualified URL; Optional
+      .form-group.row
+        label.col-sm-3.control-label(for='members') Project Leads
+        .col-sm-7
+          select.form-control.leads-select(name='leads', id='leads', multiple=true)
+            for lead in users
+              option(value=lead.username, data-img=lead.profile.picture, selected=(user.username===lead.username))
+                if(lead.profile.name)
+                  =lead.profile.name+' ('+lead.username+')'
+                else
+                  ='('+lead.username+')'
+
+      .form-group.row
+        label.col-sm-3.control-label(for='members') Project Members
+        .col-sm-7
+          select.form-control.members-select(name='members', id='members', multiple=true)
+            for member in users
+              option(value=member.username, data-img=member.profile.picture)
+                if(member.profile.name)
+                  =member.profile.name+' ('+member.username+')'
+                else
+                  ='('+member.username+')'
+      .form-group.row
+        label.col-sm-3.control-label(for='needs') Project Needs
+        .col-sm-7
+          select.form-control.input-tags-target(name='needs', id='needs', multiple=true, data-role="tagsinput")
+          em These should be 1-2 word describers, comma-dilineated, used for tagging and sorting.
+      .form-group.row
+        label.col-sm-3.control-label(for='keywords') Project Keywords
+        .col-sm-7
+          select.form-control.input-tags-target(name='keywords', id='keywords', multiple=true, data-role="tagsinput")
+          em These should be 1-2 word describers, comma-dilineated, used for tagging and sorting.
+      .form-group.row
+        label.col-sm-3.control-label(for='thumbnailUrl') Project Thumbnail Image URL
+        .col-sm-7
+          input.form-control(type='text', name='thumbnailUrl', id='thumbnailUrl')
+          em This should be a direct link to a square-ratio image, used in the project list page. Fully Qualified URL. Optional.
+      .form-group.row
+        label.col-sm-3.control-label(for='bannerUrl') Project Banner Image URL
+        .col-sm-7
+          input.form-control(type='text', name='bannerUrl', id='bannerUrl')
+          em This should be a direct link to a banner image, used in the project profile page. Fully Qualified URL. Optional.
+      .form-group.row
+        label.col-sm-3.control-label(for='content') Project Profile Content &nbsp;
+          a(href='https://guides.github.com/features/mastering-markdown/#syntax', target='_blank')
+            img(src='https://cdn.rawgit.com/dcurtis/markdown-mark/master/svg/markdown-mark.svg', width='25')
+          br
+          br
+          em This is the main content of your project's profile page. You can go into detail about how your project is used, how to redeploy it, embed diagrams or photos, whatever you would like. Content is formatted using&nbsp;
+            a(href='https://guides.github.com/features/mastering-markdown/#syntax', target='_blank') Markdown syntax
+          | .
+        .col-sm-7
+          textarea.form-control.simple-mde(name='content', id='content', rows="6")
+      .form-group.row
+        .col-sm-offset-3.col-sm-4
+          button.btn.btn.btn-primary(type='submit')
+            i.fa.fa-pencil
+            | Save Project
+  a(href='/projects') Back
+block script
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js")
+  script.
+    $(document).ready(function() {
+      var teamSelectSettings = {
+        enableHTML: true,
+        optionLabel: function(element) {
+            return '<img class="avatar" src="'+$(element).attr('data-img')+'"> '+$(element).text()
+        }
+      }
+      $('.leads-select').multiselect(teamSelectSettings)
+      $('.members-select').multiselect(teamSelectSettings)
+    })

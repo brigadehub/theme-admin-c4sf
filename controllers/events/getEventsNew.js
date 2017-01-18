@@ -3,13 +3,13 @@ module.exports = {
   endpoint: '/events/new',
   authenticated: true,
   roles: ['core', 'superAdmin'],
-  scopes: ['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
+  scopes: ['user:email', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
   middleware: [],
   controller: getEventsNew
 }
 
 function getEventsNew (req, res) {
-  res.render(res.theme.public + '/views/events/new', {
+  res.render(res.theme.admin + '/views/events/new', {
     view: 'event-new',
     title: 'New Events',
     brigade: res.locals.brigade

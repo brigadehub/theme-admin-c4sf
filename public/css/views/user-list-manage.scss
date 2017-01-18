@@ -1,0 +1,41 @@
+[data-view='user-list-manage']
+{
+  .add-btn
+  {
+    margin-bottom: 25px;
+  }
+  table
+  {
+    table-layout: fixed;
+  }
+  th.avatar,
+  td.avatar
+  {
+    width: 40px;
+    min-width: 0;
+    max-width: 40px;
+    padding: 5px;
+    img
+    {
+      width: 30px;
+      height: 30px;
+    }
+  }
+  th.select,
+  td.select
+  {
+    text-align: center;
+  }
+  th.username
+  {
+    width: 160px;
+  }
+  th.name
+  {
+    width: 225px;
+  }
+  th.email
+  {
+    width: 250px;
+  }
+}

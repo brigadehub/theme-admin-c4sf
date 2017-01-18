@@ -11,7 +11,7 @@ module.exports = {
   endpoint: '/users/manage',
   authenticated: true,
   roles: ['core', 'superAdmin'],
-  scopes: ['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
+  scopes: ['user:email', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
   middleware: [],
   controller: getUsersManage
 }
@@ -25,7 +25,7 @@ function getUsersManage (req, res) {
   console.log('getUsersManage')
   Users.find({}, function (err, foundUsers) {
     if (err) console.error(err)
-    res.render(res.theme.public + '/views/users/manage', {
+    res.render(res.theme.admin + '/views/users/manage', {
       currentuser: req.user,
       view: 'user-list-manage',
       title: 'Manage Users',

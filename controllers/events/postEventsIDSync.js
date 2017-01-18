@@ -3,7 +3,7 @@ module.exports = {
   endpoint: '/events/:eventId/sync',
   authenticated: true,
   roles: ['core', 'superAdmin'],
-  scopes: ['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
+  scopes: ['user:email', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
   middleware: [],
   controller: postEventsIDSync
 }

@@ -1,0 +1,26 @@
+mixin input(opts)
+  .form-group.row
+    label.col-sm-2.control-label(for=opts.slug)
+      span.pull-right=opts.title
+    .col-sm-7
+      if block
+        block
+      else
+        if opts.type
+          if opts.selected
+            if opts.value
+              input.form-control(type=opts.type, name=opts.slug, id=opts.slug, placeholder=opts.placeholder, selected=opts.selected, value=opts.value)
+            else
+              input.form-control(type=opts.type, name=opts.slug, id=opts.slug, placeholder=opts.placeholder, selected=opts.selected)
+          else
+            if opts.value
+              input.form-control(type=opts.type, name=opts.slug, id=opts.slug, placeholder=opts.placeholder, value=opts.value)
+            else
+              input.form-control(type=opts.type, name=opts.slug, id=opts.slug, placeholder=opts.placeholder)
+        else
+          if opts.value
+            input.form-control(type='text', name=opts.slug, id=opts.slug, placeholder=opts.placeholder, value=opts.value)
+          else
+            input.form-control(type='text', name=opts.slug, id=opts.slug, placeholder=opts.placeholder)
+      if opts.description
+        em.row=opts.description

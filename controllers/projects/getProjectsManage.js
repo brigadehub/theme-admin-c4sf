@@ -8,7 +8,7 @@ module.exports = {
   endpoint: '/projects/manage',
   authenticated: true,
   roles: ['lead', 'core', 'superAdmin'],
-  scopes: ['user', 'repo'],
+  scopes: ['user:email', 'repo'],
   middleware: [],
   controller: getProjectsManage
 }
@@ -19,7 +19,7 @@ function getProjectsManage (req, res) {
   Projects.find({brigade: res.locals.brigade.slug}, function (err, foundProjects) {
     if (err) console.error(err)
 
-    res.render(res.theme.public + '/views/projects/manage', {
+    res.render(res.theme.admin + '/views/projects/manage', {
       view: 'project-list-manage',
       title: 'Manage Projects',
       brigade: res.locals.brigade,

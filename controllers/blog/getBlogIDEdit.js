@@ -26,7 +26,7 @@ function getBlogIDEdit (req, res) {
     console.log(post.date, moment(post.date).format('MM/DD/YYYY'))
     User.find({}, function (err, users) {
       if (err) console.log(err)
-      res.render(res.theme.public + '/views/blog/new-edit', {
+      res.render(res.theme.admin + '/views/blog/new-edit', {
         view: 'blog-post-edit',
         blogId: req.params.blogId,
         title: 'Edit Blog Post',

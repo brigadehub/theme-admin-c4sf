@@ -21,7 +21,7 @@ function getEvents (req, res) {
       event.convertedstart = moment.unix(event.start).tz(res.locals.brigade.location.timezone).format('MMMM DD, YYYY ha z')
       return event
     })
-    res.render(res.theme.public + '/views/events/index', {
+    res.render(res.theme.admin + '/views/events/index', {
       view: 'event-list',
       events: mappedEvents,
       upcomingevents: mappedEvents.slice(0, 10),

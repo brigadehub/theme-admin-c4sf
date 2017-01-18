@@ -8,7 +8,7 @@ module.exports = {
   endpoint: '/projects/manage',
   authenticated: true,
   roles: ['lead', 'core', 'superAdmin'],
-  scopes: ['user', 'repo'],
+  scopes: ['user:email', 'repo'],
   middleware: [],
   controller: postProjectsManage
 }

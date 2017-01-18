@@ -7,7 +7,7 @@ module.exports = {
   endpoint: '/events/manage',
   authenticated: true,
   roles: ['core', 'superAdmin'],
-  scopes: ['user', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
+  scopes: ['user:email', 'repo', 'admin:org', 'admin:repo_hook', 'admin:org_hook'],
   middleware: [],
   controller: getEventsManage
 }
@@ -21,7 +21,7 @@ function getEventsManage (req, res) {
         event.localstart = moment.unix(event.start).tz(res.locals.brigade.location.timezone).format('ha z MMMM DD, YYYY')
         return event
       })
-      res.render(res.theme.public + '/views/events/manage', {
+      res.render(res.theme.admin + '/views/events/manage', {
         view: 'event-list-manage',
         title: 'Manage Events',
         allEvents: mappedEvents,

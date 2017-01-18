@@ -8,7 +8,7 @@ module.exports = {
   endpoint: '/projects/:projectId/settings',
   authenticated: true,
   roles: ['lead', 'core', 'superAdmin'],
-  scopes: ['user', 'repo'],
+  scopes: ['user:email', 'repo'],
   middleware: [],
   controller: getProjectsIDSettings
 }
@@ -20,7 +20,7 @@ function getProjectsIDSettings (req, res) {
     if (err) console.error(err)
     Users.find({}, function (err, allUsers) {
       if (err) console.error(err)
-      res.render(res.theme.public + '/views/projects/settings', {
+      res.render(res.theme.admin + '/views/projects/settings', {
         view: 'project-settings',
         project: foundProject[0],
         users: allUsers,

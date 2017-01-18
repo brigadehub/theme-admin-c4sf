@@ -1,0 +1,188 @@
+extends ../layout
+
+block content
+  .row.breadcrumbs
+    .col-sm-12
+      a(href='/')= brigade.name
+      | &nbsp;&nbsp;/&nbsp;
+      a(href='/admin/brigade/dashboard') Admin Dashboard
+  .row.page-header
+    .col-sm-12
+      h1.page-title Admin Dashboard
+  .row
+    hr
+  .container
+    .row
+    .card.card-block.col-sm-6.metric.checkin-count
+      h4.card-title Number of Checkins
+      h5.card-subtitle.text-muted (Within past 6 days)
+      p.card-text
+        i.fa.fa-spin.fa-spinner
+    .card.card-block.col-sm-6.metric.anon-checkin-count
+      h4.card-title Number of Anonymous Checkins
+      h5.card-subtitle.text-muted (Within past 6 days)
+      p.card-text
+        i.fa.fa-spin.fa-spinner
+    .card.card-block.col-sm-6.metric.member-count
+      h4.card-title Number of Members
+      h5.card-subtitle.text-muted Ever signed in
+      p.card-text
+        i.fa.fa-spin.fa-spinner
+    .card.card-block.col-sm-6.metric.new-member-count
+      h4.card-title Number of New Accounts Created
+      h5.card-subtitle.text-muted (Within past 6 days)
+      p.card-text
+        i.fa.fa-spin.fa-spinner
+    .card.card-block.col-sm-6.metric.checkin-list
+      h4.card-title Checkins
+      h5.card-subtitle.text-muted (Within past 6 days)
+      p.card-text
+        i.fa.fa-spin.fa-spinner
+    .card.card-block.col-sm-6.metric.new-member-list
+      h4.card-title New Members
+      h5.card-subtitle.text-muted (Within past 6 days)
+      p.card-text
+        i.fa.fa-spin.fa-spinner
+
+
+  block script
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/superagent/2.3.0/superagent.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.4.6/bluebird.min.js')
+    script(src='/admin/js/lib/query-string.js')
+    script.
+      var jwt = '!{user.jwt}'
+      $(document).ready(function(){
+        fetchMetrics()
+        window.polling = setInterval(fetchMetrics, 5000)
+      })
+      var rightNow = moment()
+      var aWeekAgo = moment().subtract(6, 'days')
+      var metrics = [
+        {
+          selector: '.checkin-count',
+          endpoint: '/api/checkins/count',
+          query: { date__gt: parseInt(aWeekAgo.format('x')) },
+          type: 'count'
+        },
+        {
+          selector: '.anon-checkin-count',
+          endpoint: '/api/checkins/count',
+          type: 'count',
+          query: { date__gt: parseInt(aWeekAgo.format('x')), userPresent__ne: true },
+        },
+        {
+          selector: '.member-count',
+          endpoint: '/api/users/count',
+          type: 'count'
+        },
+        {
+          selector: '.new-member-count',
+          endpoint: '/api/users/count',
+          query: { createdAt__gt: parseInt(aWeekAgo.format('x')) },
+          type: 'count'
+        },
+        {
+          selector: '.checkin-list',
+          endpoint: '/api/checkins',
+          type: 'find',
+          query: { date__gt: parseInt(aWeekAgo.format('x')) }
+        },
+        {
+          selector: '.new-member-list',
+          endpoint: '/api/users',
+          type: 'find',
+          query: { createdAt__gt: parseInt(aWeekAgo.format('x')) }
+        }
+      ]
+
+      function fetchMetrics () {
+        var metricCalls = []
+        _.forEach(metrics, function(metric) {
+          metricCalls.push(callMetric(metric))
+        })
+        Promise.all(metricCalls).then(function(results){
+          _.forEach(results, function(metric) {
+            if (metric.original.type === 'count') {
+              return $(metric.original.selector).find('p.card-text').html('<h1>' + metric.results.data + '</h1>')
+            }
+            if (metric.original.type === 'find') {
+              if (!metric.results.data.length){
+                return $(metric.original.selector).find('p.card-text').html('<em>No results found</em>')
+              }
+              if(metric.original.endpoint.indexOf('users') > -1){
+                var userList = $('<ul>')
+                for (userIndex in metric.results.data) {
+                  var user = metric.results.data[userIndex]
+                  var userLine = $('<li>')
+                  userLine.html(user.profile.name + ' (' + user.username + ') - ' + user.skills.join(', '))
+                  userList.append(userLine)
+                }
+                $(metric.original.selector).find('p.card-text').html(userList)
+              } else if (metric.original.endpoint.indexOf('checkins') > -1) {
+                var checkinList = $('<table class="table offset">')
+                var header = $('<thead>')
+                var headerRow = $('<tr>')
+                var headerName = $('<th>')
+                headerName.html('name')
+                headerRow.append(headerName)
+                var headerGithubUsername = $('<th>')
+                headerGithubUsername.html('github')
+                headerRow.append(headerGithubUsername)
+                var headerEmail = $('<th>')
+                headerEmail.html('email')
+                headerRow.append(headerEmail)
+                var headerSkills = $('<th>')
+                headerSkills.html('skills')
+                headerRow.append(headerSkills)
+                var headerLoggedIn = $('<th>')
+                headerLoggedIn.html('logged in')
+                headerRow.append(headerLoggedIn)
+                header.append(headerRow)
+                checkinList.append(header)
+                for (checkinIndex in metric.results.data) {
+                  var checkin = metric.results.data[checkinIndex]
+                  var checkinLine = $('<tr>')
+                  var name = $('<td>')
+                  name.html(checkin.name)
+                  checkinLine.append(name)
+                  var githubUsername = $('<td>')
+                  githubUsername.html(checkin.githubUsername)
+                  checkinLine.append(githubUsername)
+                  var email = $('<td>')
+                  email.html(checkin.email)
+                  checkinLine.append(email)
+                  var skills = $('<td>')
+                  skills.html(checkin.skills.join(', '))
+                  checkinLine.append(skills)
+                  var loggedIn = $('<td>')
+                  loggedIn.html(checkin.userPresent)
+                  checkinLine.append(loggedIn)
+                  checkinList.append(checkinLine)
+                }
+                $(metric.original.selector).find('p.card-text').html(checkinList)
+              } else {
+                $(metric.original.selector).find('p.card-text').html(JSON.stringify(metric.results.data))
+              }
+            }
+          })
+        })
+      }
+      function callMetric(metric) {
+        return new Promise(function(resolve, reject) {
+          var url = metric.endpoint
+          if(metric.query){
+            var querystring = query.stringify(metric.query)
+            url = url+ '?' + querystring
+          }
+          superagent
+            .get(url)
+            .set('Authorization', 'Bearer '+jwt)
+            .end(function(err, results) {
+            if (err) return reject(err)
+            resolve({ original: metric, results: results.body })
+          })
+        })
+      }

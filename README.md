@@ -1,7 +1,6 @@
 # brigadehub-admin-c4sf
 
 [![TrustOSS Compliant](http://trustoss.org/badge_version.svg)](http://trustoss.org)
-[![Build Status Badge - Use something like TravisCI](https://img.shields.io/badge/build-status-brightgreen.svg)](http://about.travis-ci.org/docs/user/getting-started/)
 
 Brief explanation of the project.
 

@@ -23,7 +23,7 @@ function getBlogNew (req, res) {
   }
   User.find({}, function (err, users) {
     if (err) console.error(err)
-    res.render(res.theme.public + '/views/blog/new-edit', {
+    res.render(res.theme.admin + '/views/blog/new-edit', {
       view: 'blog-post-new',
       title: 'New Blog',
       brigade: res.locals.brigade,

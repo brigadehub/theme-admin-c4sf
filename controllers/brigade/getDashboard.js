@@ -16,7 +16,7 @@ module.exports = {
  *  Controller
  */
 function getDashboard (req, res, next) {
-  res.render(res.theme.public + '/views/dashboard/index', {
+  res.render(res.theme.admin + '/views/dashboard/index', {
     title: 'Check in',
     view: 'checkin',
     brigade: res.locals.brigade,

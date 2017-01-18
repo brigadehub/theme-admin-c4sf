@@ -50,7 +50,7 @@ function postBlogIDEdit (req, res) {
       if (err) {
         console.error(err)
         req.flash('errors', { msg: err.message })
-        return res.redirect(req.session.returnTo || '/blog/post/' + req.params.blogId + '/edit')
+        return res.redirect(req.session.returnTo || '/admin/blog/post/' + req.params.blogId + '/edit')
       } else {
         req.flash('success', { msg: 'Success! Blog post updated' })
         return res.redirect('/blog/post/' + post.slug)

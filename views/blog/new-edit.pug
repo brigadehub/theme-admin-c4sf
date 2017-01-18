@@ -1,0 +1,162 @@
+extends ../layout
+include ../mixins/form/input
+include ../mixins/form/user-dropdown
+
+block content
+  .row.breadcrumbs
+    .col-sm-12
+      a(href='/')= brigade.name
+      | &nbsp;&nbsp;/&nbsp;
+      a(href='/blog') Blog
+      if post
+        | &nbsp;&nbsp;/&nbsp;
+        a(href='/blog/'+post.slug)=post.title
+        | &nbsp;&nbsp;/&nbsp;
+        a(href='/blog/'+post.slug+'/edit') Edit
+      else
+        | &nbsp;&nbsp;/&nbsp;
+        a(href='/admin/blog/new') New
+  .page-header.row
+    if post
+      h1.page-title=post.title
+    else
+      h1.page-title New Blog Post
+  hr
+
+  form.row.form-horizontal(action=(post ? '/blog/post/'+post.slug : '/admin/blog/new'), method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    if post
+      .form-group.row
+        label.col-sm-2
+          span.pull-right
+            | Post Status
+            br
+            strong=(post && post.published ? 'Published' : 'Unpublished')
+        .col-sm-1
+        .col-sm-2
+          button.btn.btn.btn-secondary(type='submit', name='published', value='false')
+            i.fa.fa-save
+            if post && post.published
+              | Unpublish
+            else
+              | Save Draft
+        .col-sm-2
+          button.btn.btn.btn-primary(type='submit', name='published', value='true')
+            i.fa.fa-pencil
+            if post && post.published
+              | Save Changes
+            else
+              | Publish
+    +input({
+      slug: 'title',
+      title: 'Title',
+      description: 'The title for your post. This is used in creating the url.',
+      value: (post ? post.title : "")
+    })
+
+    +input({
+      slug: 'description',
+      title: 'Short Description',
+      description: '1-2 sentences describing the post. Displayed on the Post listing page.',
+      value: (post ? post.description : "")
+    })
+
+    +input({
+      slug: 'date',
+      title: 'Date Published',
+      description: 'This is the date of publishing displayed on your post.',
+    })
+      .input-group.datepicker(data-provide='datepicker')
+        if post
+          input.form-control.date-picker(type='text', name='date', id='date', value=post.date)
+        else
+          input.form-control.date-picker(type='text', name='date', id='date')
+        label.input-group-addon(for='date')
+          i.fa.fa-th
+
+    .form-group.row
+      label.col-sm-2.control-label(for='content')
+        a.pull-right(href='https://guides.github.com/features/mastering-markdown/#syntax', target='_blank')
+        span.pull-right Post Content &nbsp;
+          img(src='https://cdn.rawgit.com/dcurtis/markdown-mark/master/svg/markdown-mark.svg', width='25')
+        br
+        br
+        em(style="text-align: right; display: inline-block;") This is the main content of your post. You can write, embed diagrams or photos, whatever you would like.
+          br
+          br
+          | Content is formatted using&nbsp;
+          a(href='https://guides.github.com/features/mastering-markdown/#syntax', target='_blank') Markdown syntax
+          | .
+      .col-sm-7
+        textarea.form-control.simple-mde(name='content', id='content', rows='30')
+          if post
+            =post.content
+
+    +input({
+      slug: 'tags',
+      title: 'Tags (optional)',
+      description: 'Comma-dilineated list of short (1-2 word) tags. Used to filter posts.',
+    })
+      select.form-control.input-tags-target(name='tags', id='tags', multiple=true, data-role="tagsinput")
+        if post && post.tags.length
+          for tag in post.tags
+            option(value=tag, selected=true)=tag
+
+    +input({
+      slug: 'author',
+      title: 'Author (optional)',
+      description: 'This is the published author for this post.',
+    })
+      +userDropdown({
+        user: user,
+        users: users,
+        includeUnattributed: true,
+        selected: function (author){
+          return (post ? (author.id === post.author) : (author.id === user.id))
+        }
+      })
+
+    +input({
+      slug: 'url',
+      title: 'Override Url (optional)',
+      description: 'This url can redirect traffic to an external blog (like Medium or Wordpress)',
+      value: (post ? post.url : "")
+    })
+
+    +input({
+      slug: 'image',
+      title: 'Image URL (optional)',
+      description: 'This is the direct url to the header/thumbnail image of this post.',
+      value: (post ? post.image : "")
+    })
+
+    if post && post.image
+      .form-group.row
+        label.col-sm-3.control-label Image Preview
+        .col-sm-7
+          img(src=post.image)
+
+    .form-group.row
+      label.col-sm-2
+        span.pull-right
+          | Post Status
+          br
+          strong=(post && post.published ? 'Published' : 'Unpublished')
+      .col-sm-1
+      .col-sm-2
+        button.btn.btn.btn-secondary(type='submit', name='published', value='false')
+          i.fa.fa-save
+          if post && post.published
+            | Unpublish
+          else
+            | Save Draft
+      .col-sm-2
+        button.btn.btn.btn-primary(type='submit', name='published', value='true')
+          i.fa.fa-pencil
+          if post && post.published
+            | Save Changes
+          else
+            | Publish
+  block script
+
+    script.

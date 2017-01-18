@@ -19,7 +19,7 @@ module.exports = {
  */
 
 function getLoginEdit (req, res) {
-  res.render(res.theme.public + '/views/account/login-edit', {
+  res.render(res.theme.admin + '/views/account/login-edit', {
     view: 'login-edit',
     title: 'Login Edit',
     brigade: res.locals.brigade

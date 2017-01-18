@@ -8,7 +8,7 @@ module.exports = {
   endpoint: '/projects/:projectId/delete',
   authenticated: true,
   roles: ['lead', 'core', 'superAdmin'],
-  scopes: ['user', 'repo'],
+  scopes: ['user:email', 'repo'],
   middleware: [],
   controller: postDeleteProject
 }
