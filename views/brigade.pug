@@ -116,7 +116,7 @@ block content
     .form-group.row
       label.col-sm-3.control-label(for='theme-admin') Admin Theme
       .col-sm-7
-        select(name='theme-admin', id='theme-admin')
+        select(name='theme-admin', id='theme-admin' disabled='disabled')
           option brigadehub-admin-
             =brigade.theme.admin
             | &nbsp;(
@@ -131,7 +131,7 @@ block content
     .form-group.row
       label.col-sm-3.control-label(for='theme-public') Public Theme
       .col-sm-7
-        select(name='theme-public', id='theme-public')
+        select(name='theme-public', id='theme-public', disabled='disabled')
           option brigadehub-public-
             =brigade.theme.public
             | &nbsp;(
