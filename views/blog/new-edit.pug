@@ -23,7 +23,7 @@ block content
       h1.page-title New Blog Post
   hr
 
-  form.row.form-horizontal(action=(post ? '/blog/post/'+post.slug : '/admin/blog/new'), method='POST')
+  form.row.form-horizontal(action=(post ? '/admin/blog/post/'+post.slug : '/admin/blog/new'), method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     if post
       .form-group.row

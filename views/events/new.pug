@@ -7,11 +7,11 @@ block content
       | &nbsp;&nbsp;/&nbsp;
       a(href='/events') Events
       | &nbsp;&nbsp;/&nbsp;
-      a(href='/events/new') New
+      a(href='/admin/events/new') New
 
   .page-header
     h3 New Event
-    form.row.form-horizontal(action='/events/new', method='POST')
+    form.row.form-horizontal(action='/admin/events/new', method='POST')
         input(type='hidden', name='_csrf', value=_csrf)
         .form-group
           label.col-sm-3.control-label(for='title') Event title

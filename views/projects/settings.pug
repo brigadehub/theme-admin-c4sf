@@ -29,9 +29,16 @@ block content
       | &nbsp;&nbsp;/&nbsp;
       a(href='/projects/'+project.id)=project.name
       | &nbsp;&nbsp;/&nbsp;
-      a(href='/projects/'+project.id+'/settings') Settings
+      a(href='/admin/projects/'+project.id+'/settings') Settings
   .page-header
-    h3 Project Settings
+    h1.page-title Project Settings
+      span.float.right
+        form(method='POST', action='/admin/projects/'+project.id+'/delete')
+          input(type='hidden', name='_csrf', value=_csrf)
+          button.btn.btn-danger(type='submit')
+            i(class="fa fa-trash-o" aria-hidden="true")
+            | Delete Project
+    hr
     form.row.form-horizontal(action='/projects/'+project.id, method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group.row
@@ -47,6 +54,13 @@ block content
         label.col-sm-3.control-label(for='description') Project Description
         .col-sm-7
           input.form-control(type='text', name='description', id='description', value=project.description, placeholder='This project is the best thing ever.')
+          em A short description of your project, used on the project list page
+      .form-group.row
+        label.col-sm-3.control-label(for='brigade') Home Brigade
+        .col-sm-7
+          select.form-control(id="brigade", name="brigade")
+            option(value=brigade.slug, selected=true)=brigade.name
+          em This is where your project is primarily being worked on
       .form-group.row
         label.col-sm-3.control-label(for='active') Active Project?
         .col-sm-7
@@ -57,68 +71,86 @@ block content
           select.form-control(id="status", name="status")
             for status in ['proposed', 'discovery', 'alpha', 'beta', 'live', 'prototype', 'mvp' ]
               option(value=status, selected=(status == project.status))=status
+          em The lifecycle status of your project may vary; if it's a new project/idea, select "proposed"
       .form-group.row
         label.col-sm-3.control-label(for='geography') Location
         .col-sm-7
           input.form-control(type='text', name='geography', id='geography', value=project.geography, placeholder='Awesome town, USA')
+          em Does your project serve a particular community? List that here, otherwise leave blank.
       .form-group.row
         label.col-sm-3.control-label(for='politicalEntity') Community Partner
         .col-sm-7
           input.form-control(type='text', name='politicalEntity', id='politicalEntity', value=project.politicalEntity, placeholder='City of Awesome, LLC')
+          em Have you partnered with a separate community entity (e.g. A government agency, or another non-profit)? List that here, otherwise, leave blank.
       .form-group.row
         label.col-sm-3.control-label(for='homepage') Homepage
         .col-sm-7
           input.form-control(type='text', name='homepage', id='homepage', value=project.homepage)
-      .form-group.row
-        label.col-sm-3.control-label(for='githubSlug') GitHub Slug
-        .col-sm-7
-          input.form-control(type='text', name='githubSlug', id='githubSlug', value=project.githubSlug)
+          em Should be a fully qualified URL; Optional
       .form-group.row
         label.col-sm-3.control-label(for='repository') GitHub Repo
         .col-sm-7
           input.form-control(type='text', name='repository', id='repository', value=project.repository)
+          em Should be a fully qualified URL; Optional
       .form-group.row
         label.col-sm-3.control-label(for='members') Project Leads
         .col-sm-7
           select.form-control.leads-select(name='leads', id='leads', multiple=true)
             for lead in users
-              option(value=lead.username, data-img=lead.profile.picture, selected=(lead.teams.lead.indexOf(project.id)>-1))=lead.profile.name+' ('+lead.username+')'
+              option(value=lead.username, data-img=lead.profile.picture, selected=(lead.teams.lead.indexOf(project.id)>-1))
+                if(lead.profile.name)
+                  =lead.profile.name+' ('+lead.username+')'
+                else
+                  ='('+lead.username+')'
       .form-group.row
         label.col-sm-3.control-label(for='members') Project Members
         .col-sm-7
           select.form-control.members-select(name='members', id='members', multiple=true)
             for member in users
-              option(value=member.username, data-img=member.profile.picture, selected=(member.teams.project.indexOf(project.id)>-1))=member.profile.name+' ('+member.username+')'
+              option(value=member.username, data-img=member.profile.picture, selected=(member.teams.project.indexOf(project.id)>-1))
+                if(member.profile.name)
+                  =member.profile.name+' ('+member.username+')'
+                else
+                  ='('+member.username+')'
       .form-group.row
         label.col-sm-3.control-label(for='needs') Project Needs
         .col-sm-7
           select.form-control.input-tags-target(name='needs', id='needs', multiple=true, data-role="tagsinput")
             for need in project.needs
               option(value=need, selected=true)=need
+          em These should be 1-2 word describers, comma-dilineated, used for tagging and sorting.
       .form-group.row
         label.col-sm-3.control-label(for='keywords') Project Keywords
         .col-sm-7
           select.form-control.input-tags-target(name='keywords', id='keywords', multiple=true, data-role="tagsinput")
             for keyword in project.keywords
               option(value=keyword, selected=true)=keyword
-      .form-group.row
-        label.col-sm-3.control-label(for='thumbnailUrl') Project Thumbnail Image URL
-        .col-sm-7
-          input.form-control(type='text', name='thumbnailUrl', id='thumbnailUrl', value=project.thumbnailUrl)
+          em These should be 1-2 word describers, comma-dilineated, used for tagging and sorting.
       .form-group.row
         .col-sm-7.col-sm-offset-3
           img(src=project.thumbnailUrl)
       .form-group.row
-        label.col-sm-3.control-label(for='bannerUrl') Project Banner Image URL
+        label.col-sm-3.control-label(for='thumbnailUrl') Project Thumbnail Image URL
         .col-sm-7
-          input.form-control(type='text', name='bannerUrl', id='bannerUrl', value=project.bannerUrl)
+          input.form-control(type='text', name='thumbnailUrl', id='thumbnailUrl', value=project.thumbnailUrl)
+          em This should be a direct link to a square-ratio image, used in the project list page. Fully Qualified URL. Optional.
       .form-group.row
         .col-sm-7.col-sm-offset-3
           img(src=project.bannerUrl)
       .form-group.row
+        label.col-sm-3.control-label(for='bannerUrl') Project Banner Image URL
+        .col-sm-7
+          input.form-control(type='text', name='bannerUrl', id='bannerUrl', value=project.bannerUrl)
+          em This should be a direct link to a banner image, used in the project profile page. Fully Qualified URL. Optional.
+      .form-group.row
         label.col-sm-3.control-label(for='content') Project Profile Content &nbsp;
-          a(href='https://guides.github.com/features/mastering-markdown/#syntax')
+          a(href='https://guides.github.com/features/mastering-markdown/#syntax', target='_blank')
             img(src='https://cdn.rawgit.com/dcurtis/markdown-mark/master/svg/markdown-mark.svg', width='25')
+          br
+          br
+          em This is the main content of your project's profile page. You can go into detail about how your project is used, how to redeploy it, embed diagrams or photos, whatever you would like. Content is formatted using&nbsp;
+            a(href='https://guides.github.com/features/mastering-markdown/#syntax', target='_blank') Markdown syntax
+          | .
         .col-sm-7
           textarea.form-control.simple-mde(name='content', id='content', rows="6")
             =project.content

@@ -28,7 +28,7 @@ nav.navbar.navbar-light.bg-faded.navbar-fixed-top
                 if user.teams.lead.length
                   a.dropdown-item.header Your Project Settings
                   each project in user.teams.lead
-                    a.dropdown-item(href='/projects/'+project+'/settings')=project
+                    a.dropdown-item(href='/admin/projects/'+project+'/settings')=project
                 if user.roles.blog || user.roles.core || user.roles.superAdmin
                   if user.teams.project.length
                     a.dropdown-item.divider
@@ -42,21 +42,21 @@ nav.navbar.navbar-light.bg-faded.navbar-fixed-top
                     i.fa.fa-home
                     | Manage Brigade
                 if user.roles.core || user.roles.superAdmin
-                  a.dropdown-item(href='/users/manage')
+                  a.dropdown-item(href='/admin/users/manage')
                     i.fa.fa-users
                     | Manage Users
-                  a.dropdown-item(href='/projects/manage')
+                  a.dropdown-item(href='/admin/projects/manage')
                     i.fa.fa-wrench
                     | Manage Projects
-                  a.dropdown-item(href='/events/manage')
+                  a.dropdown-item(href='/admin/events/manage')
                     i.fa.fa-calendar
                     | Manage Events
                 if user.roles.blog || user.roles.core || user.roles.superAdmin
-                  a.dropdown-item(href='/blog/manage')
+                  a.dropdown-item(href='/admin/blog/manage')
                     i.fa.fa-th
                     | Manage Blog Posts
                 if user.roles.core || user.roles.superAdmin
-                  a.dropdown-item(href='/contact/edit')
+                  a.dropdown-item(href='/admin/contact/edit')
                     i.fa.fa-envelope-o
                     | Manage Contact Page
                 if (user.teams.project.length) || (user.roles.blog || user.teams.lead.length || user.roles.core || user.roles.superAdmin)

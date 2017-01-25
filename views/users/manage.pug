@@ -7,7 +7,7 @@ block content
       | &nbsp;&nbsp;/&nbsp;
       a(href='/users') Users
       | &nbsp;&nbsp;/&nbsp;
-      a(href='/users/manage') Manage
+      a(href='/admin/users/manage') Manage
   script.
     window._currentUser = '#{currentuser.username}'
   .page-header
@@ -31,7 +31,7 @@ block content
             th.select Super Admin
             th github ID
         tbody
-        form.pull-right(method='POST', action='/users/manage')
+        form.pull-right(method='POST', action='/admin/users/manage')
           input(type='hidden', name='_csrf', value=_csrf)
           each user in users
             tr

@@ -14,7 +14,7 @@ block content
     if user && user.isBlogger()
       a.btn.btn-secondary(href='/admin/blog/new') New Post
     |&nbsp;&nbsp;&nbsp;
-    form.row.form-horizontal(action='/blog/manage', method='POST', id='manageBlogForm')
+    form.row.form-horizontal(action='/admin/blog/manage', method='POST', id='manageBlogForm')
       input(type='hidden', name='_csrf', value=_csrf)
       table.table
         thread

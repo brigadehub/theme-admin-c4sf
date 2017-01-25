@@ -7,12 +7,12 @@ block content
       | &nbsp;&nbsp;/&nbsp;
       a(href='/event') Events
       | &nbsp;&nbsp;/&nbsp;
-      a(href='/event/manage') Manage
+      a(href='/admin/events/manage') Manage
 
   .page-header
     h3 Manage Events
     if user && user.isAdmin()
-      a(href='/events/new') Add new event
+      a(href='/admin/events/new') Add new event
     |&nbsp;&nbsp;&nbsp;
     form.row.form-horizontal(action='/events/manage', method='POST', id='manageEventsForm')
       input(type='hidden', name='_csrf', value=_csrf)

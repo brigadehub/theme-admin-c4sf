@@ -4,7 +4,7 @@ block content
   .row
     .page-header
       h3 Add New User
-      form(action='/users/new', method='POST')
+      form(action='/admin/users/new', method='POST')
         input(type='hidden', name='_csrf', value=_csrf)
         .form-group.row
           label.col-sm-3.col-form-label(for='name') Name
