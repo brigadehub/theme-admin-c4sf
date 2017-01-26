@@ -48,8 +48,9 @@ function postBrigade (req, res, next) {
       thisBrigade.checkIn.day = req.body.checkinday
       thisBrigade.checkIn.urlLink = req.body.checkinurl
       thisBrigade.copy.description = req.body.description
-    } else if (req.body['theme-slug']) { // theme updated
-      thisBrigade.theme.slug = req.body['theme-slug']
+    } else if (req.body['logo']) { // theme updated
+      // thisBrigade.theme.admin = req.body['theme-admin']
+      // thisBrigade.theme.public = req.body['theme-public']
       thisBrigade.theme.logo = req.body.logo
       thisBrigade.theme.page.title = req.body['show-title'] === 'on'
       thisBrigade.theme.page.events = req.body['show-events'] === 'on'
@@ -121,7 +122,7 @@ function postBrigade (req, res, next) {
           thisBrigade.redirects.push(req.body['new-redirect'])
         }
       }
-    } else { // social media keys updated
+    } else if (req.body['github-client-id']) { // social media keys updated
       thisBrigade.auth.github.clientId = req.body['github-client-id']
       thisBrigade.auth.github.clientSecret = req.body['github-client-secret']
       thisBrigade.auth.meetup.consumerKey = req.body['meetup-client-id']
@@ -130,14 +131,20 @@ function postBrigade (req, res, next) {
       thisBrigade.auth.segment.writeKey = req.body['segment-write-key']
       thisBrigade.auth.email.user = req.body['emailuser']
       thisBrigade.auth.email.password = req.body['emailpass']
+    } else {
+      console.log(new Date(), 'Error parsing brigade info') 
+      console.log(req.body)
+      req.flash('error', {'An error has occurred parsing the data to save. Please check your installation\'s logs'})
+      return res.redirect('/admin/brigade')
     }
     thisBrigade.save(function (err, results) {
       if (err) {
         console.error(err)
         req.flash('error', { msg: 'An error has occurred. Check console.' })
+        return res.redirect('/admin/brigade')
       }
       req.flash('success', { msg: "Success! You've updated your brigade." })
-      res.redirect('/brigade')
+      res.redirect('/admin/brigade')
     })
   })
 }
