@@ -132,9 +132,9 @@ function postBrigade (req, res, next) {
       thisBrigade.auth.email.user = req.body['emailuser']
       thisBrigade.auth.email.password = req.body['emailpass']
     } else {
-      console.log(new Date(), 'Error parsing brigade info') 
+      console.log(new Date(), 'Error parsing brigade info')
       console.log(req.body)
-      req.flash('error', {'An error has occurred parsing the data to save. Please check your installation\'s logs'})
+      req.flash('error', { msg: 'An error has occurred parsing the data to save. Please check your installation\'s logs'})
       return res.redirect('/admin/brigade')
     }
     thisBrigade.save(function (err, results) {
