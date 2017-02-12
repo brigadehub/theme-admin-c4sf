@@ -58,11 +58,12 @@ function postProjectsNew (req, res) {
       project.keywords = project.keywords.concat(req.body.keywords)
     }
   }
+  console.log(project)
   project.save(function (err, newProject) {
     if (err) {
       console.error(err)
       req.flash('errors', {msg: 'An Error occured while creating your project.'})
-      return res.redirect('/projects/new')
+      return res.redirect('/admin/projects/new')
     }
     req.flash('success', {msg: 'Success! You have created a project.'})
     res.redirect(`/projects/${project.id}`)

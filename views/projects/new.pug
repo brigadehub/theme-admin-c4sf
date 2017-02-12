@@ -31,7 +31,7 @@ block content
   .page-header
     h1.page-title New Project
     hr
-    form.row.form-horizontal(action='/projects/new', method='POST')
+    form.row.form-horizontal(action='/admin/projects/new', method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group.row
         label.col-sm-3.control-label(for='title') Project title

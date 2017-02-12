@@ -1,0 +1,7 @@
+{
+  "app.components.HomePage.header": "This is HomePage component!",
+  "app.components.NotFoundPage.header": "This is NotFoundPage component!",
+  "app.containers.Hiragana.header": "This is Hiragana container !",
+  "app.containers.Katakana.header": "This is Katakana container !",
+  "app.containers.Sets.header": "This is Sets container !"
+}

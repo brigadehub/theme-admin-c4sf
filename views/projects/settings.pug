@@ -39,7 +39,7 @@ block content
             i(class="fa fa-trash-o" aria-hidden="true")
             | Delete Project
     hr
-    form.row.form-horizontal(action='/projects/'+project.id, method='POST')
+    form.row.form-horizontal(action='/admin/projects/'+project.id, method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group.row
         label.col-sm-3.control-label(for='title') Project title
