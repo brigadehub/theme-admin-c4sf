@@ -27,7 +27,7 @@ function postProjectsNew (req, res) {
   project.politicalEntity = req.body.politicalEntity || ''
   project.geography = req.body.geography || ''
   project.homepage = req.body.homepage || ''
-  project.repository = req.body.repository || ''
+  project.repositories = req.body.repositories || []
   project.description = req.body.description || ''
   project.content = req.body.content || ''
   project.thumbnailUrl = req.body.thumbnailUrl || ''

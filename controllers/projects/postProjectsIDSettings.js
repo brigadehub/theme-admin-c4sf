@@ -32,7 +32,7 @@ function postProjectsIDSettings (req, res) {
       project.politicalEntity = req.body.politicalEntity || ''
       project.geography = req.body.geography || ''
       project.homepage = req.body.homepage || ''
-      project.repository = req.body.repository || ''
+      project.repositories = req.body.repositories || []
       project.description = req.body.description || ''
       project.content = req.body.content || ''
       project.thumbnailUrl = req.body.thumbnailUrl || ''
@@ -67,10 +67,10 @@ function postProjectsIDSettings (req, res) {
       return project.save(function (err) {
         if (err) console.error(err)
         req.flash('success', { msg: 'Success! You have updated your project.' })
-        res.redirect('/projects/' + project.id + '/settings')
+        res.redirect('/admin/projects/' + project.id + '/settings')
       })
     }
     req.flash('errors', { msg: 'Could not find project with id ' + req.params.projectId })
-    res.redirect('/projects/manage')
+    res.redirect('/projects')
   })
 }

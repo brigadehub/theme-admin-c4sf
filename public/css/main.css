@@ -3654,8 +3654,7 @@ ul[data-sidebar] li.selected {
 }
 
 .d-ib {
-  display: inline-block;
-  float: none;
+  margin: auto;
 }
 
 .img-thumbnail-placeholder-square {
@@ -4314,6 +4313,16 @@ p.card-author span, p.card-date span {
 
 [data-view='project-list'] .project-list-card p.card-needs .badge {
   background: #d23737;
+}
+
+[data-view='project-new'] input[name='repositories'] {
+  display: block;
+  width: calc(100% - 52px);
+}
+
+[data-view='project-settings'] input[name='repositories'] {
+  display: block;
+  width: calc(100% - 52px);
 }
 
 [data-view='project'] .banner .project-banner {

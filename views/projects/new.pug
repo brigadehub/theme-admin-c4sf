@@ -75,10 +75,15 @@ block content
           input.form-control(type='text', name='homepage', id='homepage', placeholder='http://example.com')
           em Should be a fully qualified URL; Optional
       .form-group.row
-        label.col-sm-3.control-label(for='repository') GitHub Repo
+        label.col-sm-3.control-label(for='repository') GitHub Repos
         .col-sm-7
-          input.form-control(type='text', name='repository', id='repository', placeholder='https://github.com/'+brigade.slug+'/example')
-          em Should be a fully qualified URL; Optional
+          .all-repositories.row
+            .input-group.repository-group.row
+              input.form-control(type='text', name='repositories', id='repositories0', data-index="0", placeholder='https://github.com/'+brigade.slug+'/example')
+              .input-group-btn
+                button.add-repo.btn.btn-primary
+                  i.fa.fa-plus
+          em Should be fully qualified URLs; Optional
       .form-group.row
         label.col-sm-3.control-label(for='members') Project Leads
         .col-sm-7
@@ -150,4 +155,60 @@ block script
       }
       $('.leads-select').multiselect(teamSelectSettings)
       $('.members-select').multiselect(teamSelectSettings)
+
+      // github repos
+    var next = 1;
+    $(document).on('click', '.add-repo', function(e){
+        e.preventDefault();
+        var $inputGroup = $(e.target).closest('.repository-group')
+        console.log($inputGroup)
+        var $allRepos = $inputGroup.closest('.all-repositories')
+        console.log($allRepos)
+        var lastId = $allRepos.last('.repository-group').find('input.form-control').attr('data-index')
+        lastId = parseInt(lastId, 10)
+        var newId = lastId + 1
+        var $newInputGroup = $('<div>')
+        $newInputGroup.attr('class', 'input-group repository-group row')
+        var $newInput = $('<input>')
+        $newInput.attr('class', 'form-control')
+        $newInput.attr('type', 'text')
+        $newInput.attr('name', 'repositories')
+        $newInput.attr('id', 'repositories'+newId)
+        $newInput.attr('data-index', newId)
+        $newInput.attr('placeholder', placeholder='https://github.com/#{brigade.slug}/example')
+        $newInputGroup.append($newInput)
+        var $newInputGroupBtn = $('<div>')
+        $newInputGroupBtn.attr('class', 'input-group-btn')
+        var $newButton = $('<button>')
+        $newButton.attr('class', 'add-repo btn btn-primary')
+        var $newIcon = $('<i>')
+        $newIcon.attr('class', 'fa fa-plus')
+        $newButton.append($newIcon)
+        $newInputGroupBtn.append($newButton)
+        $newInputGroup.append($newInputGroupBtn)
+        $allRepos.append($newInputGroup)
+        var $oldButton = $inputGroup.find('button')
+        $oldButton.removeClass('btn-primary')
+        $oldButton.removeClass('add-repo')
+        $oldButton.addClass('btn-danger')
+        $oldButton.addClass('remove-repo')
+        var $oldIcon = $oldButton.find('i')
+        $oldIcon.removeClass('fa-plus')
+        $oldIcon.addClass('fa-minus')
+        $oldButton.off('click')
+        $oldButton.on('click', function () {
+          $inputGroup.remove()
+        })
+        //- .input-group.repository-group.row
+        //-   input.form-control(type='text', name='repositories', id='repositories0', value=repositories&&repositories.length?repositories[0]:'', placeholder='https://github.com/'+brigade.slug+'/example')
+        //-   .input-group-btn
+        //-     button.add-repo.btn.btn-primary
+        //-       i.fa.fa-plus
+      });
+
+      $(document).on('click', '.remove-repo', function(e){
+          e.preventDefault();
+          var $inputGroup = $(e.target).closest('.repository-group')
+          $inputGroup.remove()
+      })
     })

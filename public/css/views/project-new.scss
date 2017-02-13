@@ -1,3 +1,6 @@
 [data-view='project-new'] {
-
+  input[name='repositories'] {
+    display:block;
+    width: calc(100% - 52px);
+  }
 }
