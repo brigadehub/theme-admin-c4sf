@@ -30,7 +30,6 @@ function postBlogIDEdit (req, res) {
 
   Post.find({slug: req.params.blogId}, function (err, post) {
     if (err) throw err
-    console.log(post)
     post = post[0]
     post.title = req.body.title
     post.author = req.body.author
@@ -44,8 +43,7 @@ function postBlogIDEdit (req, res) {
     if (typeof req.body.tags === 'string') {
       post.tags = [req.body.tags]
     }
-    post.tags = post.tags.map((tag) => tag.trim())
-    console.log(post.tags)
+    if (post.tags && post.tags.length) post.tags = post.tags.map((tag) => tag.trim())
     post.save(function (err) {
       if (err) {
         console.error(err)

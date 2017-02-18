@@ -108,11 +108,13 @@ block content
       description: 'This is the published author for this post.',
     })
       +userDropdown({
+        slug: 'author',
         user: user,
         users: users,
         includeUnattributed: true,
-        selected: function (author){
-          return (post ? (author.id === post.author) : (author.id === user.id))
+        base:post,
+        selected: function (author, base){
+          return (base ? (author.id === base.author) : (author.id === user.id))
         }
       })
 
