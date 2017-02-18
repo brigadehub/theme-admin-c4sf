@@ -92,10 +92,10 @@ block content
         .col-sm-7
           .all-repositories.row
             .input-group.repository-group.row
-              input.form-control(type='text', name='repositories', id='repositories0', data-index="0" value=project.repositories&&project.repositories.length?project.repositories[0]:'', placeholder='https://github.com/'+brigade.slug+'/example')
+              input.form-control(type='text', name='repositories', id='repositories0', data-index="0" value=project.repositories&&project.repositories.length?project.repositories[0]:project.repository, placeholder='https://github.com/'+brigade.slug+'/example')
               .input-group-btn
-                button.btn(class=(0===project.repositories.length-1)?'add-repo btn-primary':'remove-repo btn-danger')
-                  i.fa(class=(0===project.repositories.length-1)?'fa-plus':'fa-minus')
+                button.btn(class=(1>=project.repositories.length-1)?'add-repo btn-primary':'remove-repo btn-danger')
+                  i.fa(class=(1>=project.repositories.length-1)?'fa-plus':'fa-minus')
             each repository, index in project.repositories
               if index !== 0
                 .input-group.repository-group.row
