@@ -1,59 +1,35 @@
-/**
- * Create the store with asynchronously loaded reducers
- */
+import { createStore, applyMiddleware, compose } from 'redux'
+import createDebounce from 'redux-debounced'
+import thunk from 'redux-thunk'
+import logger from 'redux-logger'
+import api from './actions/utils/api'
+import rootReducer from './reducers'
+import preloadedState from './preloadedState'
 
-import { createStore, applyMiddleware, compose } from 'redux';
-import { fromJS } from 'immutable';
-import { routerMiddleware } from 'react-router-redux';
-import createSagaMiddleware from 'redux-saga';
-import createReducer from './reducers';
+export default function configureStore () {
+  const store = createStore(rootReducer, preloadedState, compose(
+    applyMiddleware(...middleware()),
+    window.devToolsExtension ? window.devToolsExtension() : (f) => f
+  ))
 
-const sagaMiddleware = createSagaMiddleware();
-
-export default function configureStore(initialState = {}, history) {
-  // Create the store with two middlewares
-  // 1. sagaMiddleware: Makes redux-sagas work
-  // 2. routerMiddleware: Syncs the location/URL path to the state
-  const middlewares = [
-    sagaMiddleware,
-    routerMiddleware(history),
-  ];
-
-  const enhancers = [
-    applyMiddleware(...middlewares),
-  ];
-
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle */
-  const composeEnhancers =
-    process.env.NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
-  /* eslint-enable */
-
-  const store = createStore(
-    createReducer(),
-    fromJS(initialState),
-    composeEnhancers(...enhancers)
-  );
-
-  // Extensions
-  store.runSaga = sagaMiddleware.run;
-  store.asyncReducers = {}; // Async reducer registry
-
-  // Make reducers hot reloadable, see http://mxs.is/googmo
-  /* istanbul ignore next */
   if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      import('./reducers').then((reducerModule) => {
-        const createReducers = reducerModule.default;
-        const nextReducers = createReducers(store.asyncReducers);
-
-        store.replaceReducer(nextReducers);
-      });
-    });
+    // enable hmr for reducers
+    module.hot.accept('../reducers', () => {
+      const nextRootReducer = require('../reducers').default
+      store.replaceReducer(nextRootReducer)
+    })
   }
 
-  return store;
+  return store
+}
+
+function middleware () {
+  const middleware = [ thunk, createDebounce(), api ]
+  if (process.env.NODE_ENV === 'development') {
+    // support disabling the logger (@Rowno hates it)
+    if (window.localStorage.reduxlogger !== 'false') {
+      middleware.push(logger({ collapsed: true }))
+    }
+  }
+  return middleware
 }

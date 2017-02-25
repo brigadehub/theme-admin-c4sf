@@ -1,0 +1,15 @@
+extends ./layout
+
+block content
+  #app
+
+block script
+  script.
+    window.__brigadehub = {
+      csrf: '#{_csrf}'
+    }
+    window.__brigadehub.user = {
+      jwt: '#{user && user.jwt.length ? user.jwt : ''}'
+    }
+    if (!window.__brigadehub.user.jwt.length) delete window.__brigadehub.user
+  script(src="/admin/js/react/build/bundle.js")

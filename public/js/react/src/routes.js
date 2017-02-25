@@ -1,106 +1,11 @@
-// These are the pages you can go to.
-// They are all wrapped in the App component, which should contain the navbar etc
-// See http://blog.mxstbr.com/2016/01/react-apps-with-pages for more information
-// about the code splitting business
-import { getAsyncInjectors } from 'utils/asyncInjectors';
+import React from 'react'
+import ReactRouter, { Route, IndexRoute} from 'react-router'
+import Wrapper from './components/wrapper'
+import Home from './containers/home'
 
-const errorLoading = (err) => {
-  console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
-};
-
-const loadModule = (cb) => (componentModule) => {
-  cb(null, componentModule.default);
-};
-
-export default function createRoutes(store) {
-  // Create reusable async injectors using getAsyncInjectors factory
-  const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
-
-  return [
-    {
-      path: '/',
-      name: 'home',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          import('containers/HomePage'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([component]) => {
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
-      path: '/sets',
-      name: 'sets',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          import('containers/Sets/reducer'),
-          import('containers/Sets/sagas'),
-          import('containers/Sets'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('sets', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
-      path: '/hiragana',
-      name: 'hiragana',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          import('containers/Hiragana/reducer'),
-          import('containers/Hiragana/sagas'),
-          import('containers/Hiragana'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('hiragana', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
-      path: '/katakana',
-      name: 'katakana',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          import('containers/Katakana/reducer'),
-          import('containers/Katakana/sagas'),
-          import('containers/Katakana'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('katakana', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
-    }, {
-      path: '*',
-      name: 'notfound',
-      getComponent(nextState, cb) {
-        import('containers/NotFoundPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      },
-    },
-  ];
-}
+module.exports = (
+    <Route path="/" component={Wrapper}>
+        <IndexRoute component={Home} />
+        {/* <Route path="/hero/:name" component={Hero} /> */}
+    </Route>
+);
