@@ -33,6 +33,10 @@ function postProjectsIDSettings (req, res) {
       project.geography = req.body.geography || ''
       project.homepage = req.body.homepage || ''
       project.repositories = req.body.repositories || []
+      project.checkFromGithub = req.body.checkFromGithub || false
+      if (project.checkFromGithub && !project.checkFromGithubAs.length) {
+        project.checkFromGithubAs = req.user.username
+      }
       project.description = req.body.description || ''
       project.content = req.body.content || ''
       project.thumbnailUrl = req.body.thumbnailUrl || ''
