@@ -16,13 +16,14 @@ module.exports = {
 function getProjectsIDSettings (req, res) {
   var Projects = req.models.Projects
   var Users = req.models.Users
-  Projects.find({'id': req.params.projectId}, function (err, foundProject) {
+  Projects.findOne({'id': req.params.projectId}, function (err, foundProject) {
     if (err) console.error(err)
+    foundProject.repositories = foundProject.repositories || []
     Users.find({}, function (err, allUsers) {
       if (err) console.error(err)
       res.render(res.theme.admin + '/views/projects/settings', {
         view: 'project-settings',
-        project: foundProject[0],
+        project: foundProject,
         users: allUsers,
         title: 'IDSettings Projects',
         brigade: res.locals.brigade

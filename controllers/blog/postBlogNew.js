@@ -17,7 +17,6 @@ module.exports = {
 function postBlogNew (req, res) {
   const Post = req.models.Posts
   const User = req.models.Users
-  console.log(req.body)
   let blogpost = {
     slug: slugify(req.body.title),
     title: req.body.title,
@@ -29,16 +28,11 @@ function postBlogNew (req, res) {
     published: req.body.published
   }
   if (req.body.url) blogpost.url = req.body.url
-  if (req.body.tags.length) {
-    if (req.body.tags.indexOf(',') > -1) {
-      req.body.tags = req.body.tags.split(',')
-      blogpost.tags = req.body.tags.map(function (tag) {
-        return tag.trim()
-      })
-    } else {
-      blogpost.tags = [req.body.tags]
-    }
+  if (req.body.tags) blogpost.tags = req.body.tags
+  if (typeof blogpost.tags === 'string') {
+    blogpost.tags = [blogpost.tags]
   }
+  if (blogpost.tags && blogpost.tags.length) blogpost.tags = blogpost.tags.map((tag) => tag.trim())
   blogpost = new Post(blogpost)
 
   blogpost.save(function (err) {
