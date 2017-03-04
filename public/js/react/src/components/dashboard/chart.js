@@ -1,25 +1,30 @@
 import React, { Component } from 'react'
 
-import { Chart } from 'react-d3-core'
+import {
+  ResponsiveContainer
+} from 'recharts';
+
+import LineChart from './lineChart'
 
 class ChartComponent extends Component {
   render () {
     const { props } = this
     const {
-      title = 'User sample',
-      width = 700,
-      height = 300,
-      margins = {left: 100, right: 100, top: 50, bottom: 50},
-      children = [{field: 'BMI',name: 'BMI',color: '#ff7f0e'}]
+      type,
+      height = 400
     } = props
+    let Chart
+    switch (type) {
+      case 'line':
+        Chart = (<LineChart {...props}>)
+    }
     return (
-      <Chart
-        title={title}
-        width={width}
+      <ResponsiveContainer
+        width="100%"
         height={height}
-        margins= {margins} >
-        {children}
-      </Chart>
+        >
+
+      </ResponsiveContainer>
     )
   }
 }
