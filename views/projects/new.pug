@@ -34,31 +34,25 @@ block content
     form.row.form-horizontal(action='/admin/projects/new', method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group.row
-        label.col-sm-3.control-label(for='title') Project title
+        label.col-sm-3.control-label(for='title') Project Title
         .col-sm-7
           input.form-control(type='text', name='title', id='title', placeholder='Awesome Project Name')
       .form-group.row
-        label.col-sm-3.control-label(for='description') Project Description
+        label.col-sm-3.control-label(for='description') Project Tagline
         .col-sm-7
           input.form-control(type='text', name='description', id='description', placeholder='This project is the best thing ever.')
           em A short description of your project, used on the project list page
+      .form-group.row
+        label.col-sm-3.control-label(for='homepage') Homepage
+        .col-sm-7
+          input.form-control(type='text', name='homepage', id='homepage', placeholder='http://example.com')
+          em Should be a fully qualified URL; Optional
       .form-group.row
         label.col-sm-3.control-label(for='brigade') Home Brigade
         .col-sm-7
           select.form-control(id="brigade", name="brigade")
             option(value=brigade.slug, selected=true)=brigade.name
           em This is where your project is primarily being worked on
-      .form-group.row
-        label.col-sm-3.control-label(for='active') Active Project?
-        .col-sm-7
-          input(type='checkbox', name='active', id='active')
-      .form-group.row
-        label.col-sm-3.control-label(for='status') Lifecycle Status
-        .col-sm-7
-          select.form-control(id="status", name="status")
-            for status in ['proposed', 'discovery', 'prototype', 'mvp', 'alpha', 'beta', 'live']
-              option(value=status, selected=(status == 'proposed'))=status
-          em The lifecycle status of your project may vary; if it's a new project/idea, select "proposed"
       .form-group.row
         label.col-sm-3.control-label(for='geography') Location
         .col-sm-7
@@ -70,10 +64,22 @@ block content
           input.form-control(type='text', name='politicalEntity', id='politicalEntity', placeholder='City of Awesome, LLC')
           em Have you partnered with a separate community entity (e.g. A government agency, or another non-profit)? List that here, otherwise, leave blank.
       .form-group.row
-        label.col-sm-3.control-label(for='homepage') Homepage
+        label.col-sm-3.control-label(for='status') Lifecycle Status
         .col-sm-7
-          input.form-control(type='text', name='homepage', id='homepage', placeholder='http://example.com')
-          em Should be a fully qualified URL; Optional
+          select.form-control(id="status", name="status")
+            for status in ['proposed', 'discovery', 'prototype', 'mvp', 'alpha', 'beta', 'live']
+              option(value=status, selected=(status == 'proposed'))=status
+          em The lifecycle status of your project may vary; if it's a new project/idea, select "proposed"
+      .form-group.row
+        label.col-sm-3.control-label(for='active') Active Project?
+        .col-sm-7
+          input(type='checkbox', name='active', id='active')
+          em.row Active tags are dynamic based on a number of criteria: a) activity within Brigadehub (updating this profile), b) event checkins of project members, and optionally c) activity on Github
+      .form-group.row
+        label.col-sm-3.control-label(for='checkFromGithub') Use Repos to set active state?
+        .col-sm-7
+          input(type='checkbox', name='checkFromGithub', id='checkFromGithub')
+          em.row This will enable use of git commits and issue activity to trigger the active flag (requires one or more repos be set below.)
       .form-group.row
         label.col-sm-3.control-label(for='repository') GitHub Repos
         .col-sm-7
@@ -84,6 +90,7 @@ block content
                 button.add-repo.btn.btn-primary
                   i.fa.fa-plus
           em Should be fully qualified URLs; Optional
+
       .form-group.row
         label.col-sm-3.control-label(for='members') Project Leads
         .col-sm-7

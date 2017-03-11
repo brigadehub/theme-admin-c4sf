@@ -14,7 +14,7 @@ module.exports = {
 
 function postEventsNew (req, res) {
   var Events = req.models.Events
-
+  
     var newEvent = new Events(req.body)
     newEvent.id = uuid.v1()
     var startString = req.body.startday + req.body.startmonth + req.body.startyear + req.body.starthour + req.body.startminute

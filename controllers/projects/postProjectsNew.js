@@ -1,7 +1,24 @@
-var slug = require('slug')
-var markdown = require('markdown-it')
-var mdnh = require('markdown-it-named-headers')
-var md = markdown({ html: true }).use(mdnh)
+const slug = require('slug')
+const _ = require('lodash')
+const markdown = require('markdown-it')
+const mdnh = require('markdown-it-named-headers')
+const md = markdown({ html: true }).use(mdnh)
+const repoExists = require('repo-exists');
+
+const repoExistsPromise = (repo) => new Promise((resolve, reject) => {
+  if(repo.indexOf('://') > -1) {
+    if (repo.indexOf('github.com') < 0) {
+      return reject(`${repo} is not a valid Github repo. Please try again.`)
+    }
+    repo = repo.split('github.com/')[1]
+  }
+  if(repo.indexOf('/') < 0) return reject(`${repo} is not a valid repo. Must contain ACCOUNT/USER. Please try again.`)
+  repoExists(repo, (error, exists) => {
+    if (error) return reject(error)
+    if (!exists) return reject(`${repo} does not exist. Please try again.`)
+    resolve(`https://github.com/${repo}`)
+  });
+})
 
 module.exports = {
   method: 'post',
@@ -12,9 +29,32 @@ module.exports = {
 }
 
 function postProjectsNew (req, res) {
-  var Projects = req.models.Projects
-  var Users = req.models.Users
-  var project = new Projects(req.body)
+  const Projects = req.models.Projects
+  const Users = req.models.Users
+  const project = new Projects(req.body)
+
+
+  project.repositories = req.body.repositories || []
+  project.repositories = _.reject(project.repositories, (repo) => {
+    return repo === ''
+  })
+
+  const repoChecks = project.repositories.map(repoExistsPromise)
+  Promise.all(repoChecks)
+    .then((results) => {
+      project.repositories = results
+      continueSave(project, req, res)
+    })
+    .catch((err) => {
+      console.log('ERROR', err)
+      req.flash('errors', { msg: err})
+      return res.redirect('/admin/projects/new')
+    })
+}
+
+function continueSave(project, req, res) {
+  const Projects = req.models.Projects
+  const Users = req.models.Users
   project.name = req.body.title || ''
   project.id = slug(project.name)
   project.brigade = res.locals.brigade.slug
@@ -27,7 +67,10 @@ function postProjectsNew (req, res) {
   project.politicalEntity = req.body.politicalEntity || ''
   project.geography = req.body.geography || ''
   project.homepage = req.body.homepage || ''
-  project.repositories = req.body.repositories || []
+  project.checkFromGithub = req.body.checkFromGithub || false
+  if (project.checkFromGithub) {
+    project.checkFromGithubAs = req.user.username
+  }
   project.description = req.body.description || ''
   project.content = req.body.content || ''
   project.thumbnailUrl = req.body.thumbnailUrl || ''
