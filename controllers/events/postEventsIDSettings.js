@@ -14,9 +14,13 @@ module.exports = {
 
 function postEventsIDSettings (req, res) {
   var Events = req.models.Events
-  Events.find({id: req.params.eventId}, function (err, foundEvent) {
+  Events.findOne({id: req.params.eventId}, function (err, thisEvent) {
     if (err) console.log(err)
-    var thisEvent = foundEvent[0]
+    if(!thisEvent) {
+      console.log('The event ' + req.params.eventId + ' was not found')
+      req.flash('errors', {msg: 'An error occurred'})
+      return res.redirect('/admin/events/manage')
+    }
     var startString = req.body.startday + req.body.startmonth + req.body.startyear + req.body.starthour + req.body.startminute
     var endString = req.body.endday + req.body.endmonth + req.body.endyear + req.body.endhour + req.body.endminute
     console.log(startString)
