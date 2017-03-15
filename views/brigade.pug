@@ -88,26 +88,21 @@ block content
     h3 Sync Content
   hr
   .row
-    form.col-sm-3(method='POST', action='/projects/sync')
+    form.col-sm-3(method='POST', action='projects/sync')
       input(type='hidden', name='_csrf', value=_csrf)
       button.btn.btn-primary(type='submit')
         i.fa.fa-code-fork
         | Sync Projects with Github
-    form.col-sm-3(method='POST', action='/users/sync')
+    form.col-sm-3(method='POST', action='users/sync')
       input(type='hidden', name='_csrf', value=_csrf)
       button.btn.btn-primary(type='submit')
         i.fa.fa-github-alt
         | Sync Users with Github
-    form.col-sm-3(method='POST', action='/events/sync')
+    form.col-sm-3(method='POST', action='events/sync')
       input(type='hidden', name='_csrf', value=_csrf)
       button.btn.btn-primary(type='submit')
         i.fa.fa-calendar-plus-o
         | Sync Events with Meetup
-    form.col-sm-3(method='POST', action='/blog/sync/jekyll')
-      input(type='hidden', name='_csrf', value=_csrf)
-      button.btn.btn-primary(type='submit')
-        i.fa.fa-rss-square
-        | Sync Blog with Jekyll Site
   .page-header.row
     h3 Theme Settings
   hr

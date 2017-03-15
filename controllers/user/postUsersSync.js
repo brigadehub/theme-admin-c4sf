@@ -24,6 +24,6 @@ function postUsersSync (req, res) {
   var Users = req.models.Users
   Users.fetchGithubUsers(res.locals.brigade, req.user, function (results) {
     req.flash('success', { msg: 'Success! You have successfully synced users from Github.' })
-    res.redirect('/users/manage')
+    res.redirect('/admin/users/manage')
   })
 }

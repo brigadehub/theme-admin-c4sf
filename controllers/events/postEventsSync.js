@@ -1,5 +1,3 @@
-var moment = require('moment')
-var uuid = require('node-uuid')
 require('moment-timezone')
 
 module.exports = {
@@ -17,9 +15,9 @@ function postEventsSync (req, res) {
   var url = 'https://api.meetup.com/2/events?&sign=true&photo-host=public&group_urlname=' + res.locals.brigade.meetup + '&page=50'
   Events.fetchMeetupEvents(url).then(function (value) {
     req.flash('success', {msg: 'Success! You have successfully synced events from Meetup.'})
-    res.redirect('/events/manage')
+    res.redirect('/admin/events/manage')
   }).catch(function (error) {
     req.flash('errors', {msg: error})
-    res.redirect('/events/manage')
+    res.redirect('/admin/events/manage')
   })
 }
