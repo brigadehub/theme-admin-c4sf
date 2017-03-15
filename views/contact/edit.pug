@@ -20,7 +20,7 @@ block content
                 td.username= user.username
                 td.name= user.profile.name
                 td.select
-                  input.select-user.center-block(type='checkbox', name=user.username+'[showcontact]', checked=(user.profile.showcontact))
+                  input(type='checkbox', name=user.username+'[showcontact]' id='showcontact', checked=user.profile.showcontact)
                 td.col-sm-5
                   input.form-control(type='number', name=user.username+'[contactrank]', value=user.profile.contactpagerank, required)
           .form-group
