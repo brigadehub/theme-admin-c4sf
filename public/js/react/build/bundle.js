@@ -34903,7 +34903,7 @@ var DashboardComponent = function (_Component) {
         __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
           'h1',
           null,
-          'Dashboard'
+          'Admin Dashboard'
         ),
         __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement('hr', null),
         __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
