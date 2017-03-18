@@ -1,8 +1,3 @@
-var slug = require('slug')
-var markdown = require('markdown-it')
-var mdnh = require('markdown-it-named-headers')
-var md = markdown({ html: true }).use(mdnh)
-
 module.exports = {
   method: 'get',
   endpoint: '/projects/:projectId/settings',

@@ -1,5 +1,3 @@
-var moment = require('moment')
-var uuid = require('node-uuid')
 require('moment-timezone')
 
 module.exports = {
@@ -14,7 +12,7 @@ module.exports = {
 
 function postEventsManage (req, res) {
   var Events = req.models.Events
-  
+
   var mongooseQuery = {}
   //  if (!res.locals.user.isAdmin()) {
   //   //  mongooseQuery.author = res.locals.user.username

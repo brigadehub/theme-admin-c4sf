@@ -1,5 +1,4 @@
 var moment = require('moment')
-var uuid = require('node-uuid')
 require('moment-timezone')
 
 module.exports = {
@@ -16,7 +15,7 @@ function postEventsIDSettings (req, res) {
   var Events = req.models.Events
   Events.findOne({id: req.params.eventId}, function (err, thisEvent) {
     if (err) console.log(err)
-    if(!thisEvent) {
+    if (!thisEvent) {
       console.log('The event ' + req.params.eventId + ' was not found')
       req.flash('errors', {msg: 'An error occurred'})
       return res.redirect('/admin/events/manage')

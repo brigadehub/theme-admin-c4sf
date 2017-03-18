@@ -1,9 +1,4 @@
-const markdown = require('markdown-it')
-const mdnh = require('markdown-it-named-headers')
-const md = markdown({ html: true }).use(mdnh)
-const _ = require('lodash')
 const moment = require('moment')
-const slugify = require('slugify')
 
 module.exports = {
   method: 'post',
@@ -16,7 +11,6 @@ module.exports = {
 
 function postBlogIDEdit (req, res) {
   const Post = req.models.Posts
-  const User = req.models.Users
   // - slug: String, // this is the slug
   // - title: String, // Display title
   // - author: String,

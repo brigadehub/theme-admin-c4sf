@@ -1,5 +1,4 @@
 var moment = require('moment')
-var uuid = require('node-uuid')
 require('moment-timezone')
 
 module.exports = {
@@ -14,17 +13,17 @@ module.exports = {
 
 function getEventsIDSettings (req, res) {
   var Events = req.models.Events
-    Events.find({id: req.params.eventId}, function (err, foundEvent) {
-      if (err) console.log(err)
-      var startDigits = moment.unix(foundEvent[0].start).tz(res.locals.brigade.location.timezone).format('MMM, D, YYYY, HH, mm').split(',')
-      var endDigits = moment.unix(foundEvent[0].end).tz(res.locals.brigade.location.timezone).format('MMM, D, YYYY, HH, mm').split(',')
-      res.render(res.theme.admin + '/views/events/settings', {
-        view: 'event-settings',
-        event: foundEvent[0],
-        title: 'Event Settings',
-        start: startDigits,
-        end: endDigits,
-        brigade: res.locals.brigade
-      })
+  Events.find({id: req.params.eventId}, function (err, foundEvent) {
+    if (err) console.log(err)
+    var startDigits = moment.unix(foundEvent[0].start).tz(res.locals.brigade.location.timezone).format('MMM, D, YYYY, HH, mm').split(',')
+    var endDigits = moment.unix(foundEvent[0].end).tz(res.locals.brigade.location.timezone).format('MMM, D, YYYY, HH, mm').split(',')
+    res.render(res.theme.admin + '/views/events/settings', {
+      view: 'event-settings',
+      event: foundEvent[0],
+      title: 'Event Settings',
+      start: startDigits,
+      end: endDigits,
+      brigade: res.locals.brigade
     })
-  }
+  })
+}

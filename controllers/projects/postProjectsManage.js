@@ -1,8 +1,3 @@
-var slug = require('slug')
-var markdown = require('markdown-it')
-var mdnh = require('markdown-it-named-headers')
-var md = markdown({ html: true }).use(mdnh)
-
 module.exports = {
   method: 'post',
   endpoint: '/projects/manage',
@@ -15,7 +10,6 @@ module.exports = {
 
 function postProjectsManage (req, res) {
   var Projects = req.models.Projects
-  var Users = req.models.Users
   var mongooseQuery = {}
   //  if (!res.locals.user.isAdmin()) {
   //   //  mongooseQuery.author = res.locals.user.username

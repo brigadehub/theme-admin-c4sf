@@ -1,5 +1,3 @@
-var moment = require('moment')
-var uuid = require('node-uuid')
 require('moment-timezone')
 
 module.exports = {

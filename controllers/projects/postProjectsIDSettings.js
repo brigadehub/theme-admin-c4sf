@@ -1,8 +1,5 @@
 const slug = require('slug')
 const _ = require('lodash')
-const markdown = require('markdown-it')
-const mdnh = require('markdown-it-named-headers')
-const md = markdown({ html: true }).use(mdnh)
 
 module.exports = {
   method: 'post',
@@ -16,7 +13,6 @@ module.exports = {
 
 function postProjectsIDSettings (req, res) {
   const Projects = req.models.Projects
-  const Users = req.models.Users
   Projects.find({'id': req.params.projectId}, function (err, foundProject) {
     if (err) console.error(err)
     const project = foundProject[0]

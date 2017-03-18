@@ -1,7 +1,3 @@
-const markdown = require('markdown-it')
-const mdnh = require('markdown-it-named-headers')
-const md = markdown({ html: true }).use(mdnh)
-const _ = require('lodash')
 const moment = require('moment')
 const slugify = require('slugify')
 
@@ -16,7 +12,6 @@ module.exports = {
 
 function postBlogNew (req, res) {
   const Post = req.models.Posts
-  const User = req.models.Users
   let blogpost = {
     slug: slugify(req.body.title),
     title: req.body.title,

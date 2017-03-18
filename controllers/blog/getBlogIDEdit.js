@@ -1,9 +1,4 @@
-const markdown = require('markdown-it')
-const mdnh = require('markdown-it-named-headers')
-const md = markdown({ html: true }).use(mdnh)
-const _ = require('lodash')
 const moment = require('moment')
-const slugify = require('slugify')
 
 module.exports = {
   method: 'get',

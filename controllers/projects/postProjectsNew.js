@@ -1,23 +1,20 @@
 const slug = require('slug')
 const _ = require('lodash')
-const markdown = require('markdown-it')
-const mdnh = require('markdown-it-named-headers')
-const md = markdown({ html: true }).use(mdnh)
-const repoExists = require('repo-exists');
+const repoExists = require('repo-exists')
 
 const repoExistsPromise = (repo) => new Promise((resolve, reject) => {
-  if(repo.indexOf('://') > -1) {
+  if (repo.indexOf('://') > -1) {
     if (repo.indexOf('github.com') < 0) {
       return reject(`${repo} is not a valid Github repo. Please try again.`)
     }
     repo = repo.split('github.com/')[1]
   }
-  if(repo.indexOf('/') < 0) return reject(`${repo} is not a valid repo. Must contain ACCOUNT/USER. Please try again.`)
+  if (repo.indexOf('/') < 0) return reject(`${repo} is not a valid repo. Must contain ACCOUNT/USER. Please try again.`)
   repoExists(repo, (error, exists) => {
     if (error) return reject(error)
     if (!exists) return reject(`${repo} does not exist. Please try again.`)
     resolve(`https://github.com/${repo}`)
-  });
+  })
 })
 
 module.exports = {
@@ -30,9 +27,7 @@ module.exports = {
 
 function postProjectsNew (req, res) {
   const Projects = req.models.Projects
-  const Users = req.models.Users
   const project = new Projects(req.body)
-
 
   project.repositories = req.body.repositories || []
   project.repositories = _.reject(project.repositories, (repo) => {
@@ -47,14 +42,12 @@ function postProjectsNew (req, res) {
     })
     .catch((err) => {
       console.log('ERROR', err)
-      req.flash('errors', { msg: err})
+      req.flash('errors', {msg: err})
       return res.redirect('/admin/projects/new')
     })
 }
 
-function continueSave(project, req, res) {
-  const Projects = req.models.Projects
-  const Users = req.models.Users
+function continueSave (project, req, res) {
   project.name = req.body.title || ''
   project.id = slug(project.name)
   project.brigade = res.locals.brigade.slug

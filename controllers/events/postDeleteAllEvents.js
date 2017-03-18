@@ -1,5 +1,3 @@
-var moment = require('moment')
-var uuid = require('node-uuid')
 require('moment-timezone')
 
 module.exports = {
@@ -14,11 +12,11 @@ module.exports = {
 
 function postDeleteAllEvents (req, res) {
   var Events = req.models.Events
-    Events.remove({}, function (err) {
-      if (err) {
-        console.log(err)
-      }
-      req.flash('success', {msg: 'Your events were deleted.'})
-      res.redirect('/events/manage')
-    })
-  }
+  Events.remove({}, function (err) {
+    if (err) {
+      console.log(err)
+    }
+    req.flash('success', {msg: 'Your events were deleted.'})
+    res.redirect('/events/manage')
+  })
+}

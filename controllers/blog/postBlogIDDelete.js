@@ -1,9 +1,3 @@
-const markdown = require('markdown-it')
-const mdnh = require('markdown-it-named-headers')
-const md = markdown({ html: true }).use(mdnh)
-const _ = require('lodash')
-const moment = require('moment')
-const slugify = require('slugify')
 
 module.exports = {
   method: 'post',
@@ -15,7 +9,6 @@ module.exports = {
 
 function postBlogIDDelete (req, res) {
   const Post = req.models.Posts
-  const User = req.models.Users
   Post.remove({slug: req.params.blogId}, function (err) {
     if (err) {
       console.log(err)
