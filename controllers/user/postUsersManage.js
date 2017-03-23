@@ -47,5 +47,5 @@ function postUsersManage (req, res) {
       })
     }
   })
-  res.redirect('/users/manage')
+  res.redirect('/admin/users/manage')
 }

@@ -51,7 +51,7 @@ function postUsersNew (req, res) {
         if (err) console.error(err)
       })
       req.flash('success', {msg: 'Success! You have created a new user.'})
-      res.redirect('/users/manage')
+      res.redirect('/admin/users/manage')
     }
   })
 }
