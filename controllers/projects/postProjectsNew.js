@@ -5,14 +5,14 @@ const repoExists = require('repo-exists')
 const repoExistsPromise = (repo) => new Promise((resolve, reject) => {
   if (repo.indexOf('://') > -1) {
     if (repo.indexOf('github.com') < 0) {
-      return reject(`${repo} is not a valid Github repo. Please try again.`)
+      return reject(new Error(`${repo} is not a valid Github repo. Please try again.`))
     }
     repo = repo.split('github.com/')[1]
   }
-  if (repo.indexOf('/') < 0) return reject(`${repo} is not a valid repo. Must contain ACCOUNT/USER. Please try again.`)
+  if (repo.indexOf('/') < 0) return reject(new Error(`${repo} is not a valid repo. Must contain ACCOUNT/USER. Please try again.`))
   repoExists(repo, (error, exists) => {
-    if (error) return reject(error)
-    if (!exists) return reject(`${repo} does not exist. Please try again.`)
+    if (error) return reject(new Error(error))
+    if (!exists) return reject(new Error(`${repo} does not exist. Please try again.`))
     resolve(`https://github.com/${repo}`)
   })
 })
