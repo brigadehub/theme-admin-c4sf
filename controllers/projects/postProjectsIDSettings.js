@@ -13,6 +13,10 @@ module.exports = {
 
 function postProjectsIDSettings (req, res) {
   const Projects = req.models.Projects
+  if (!req.user.teams.lead.includes(req.params.projectId) && !req.user.roles.superAdmin && !req.user.roles.core) {
+    req.flash('errors', { msg: 'You are not authorized to access this resource.' })
+    return res.redirect('/projects')
+  }
   Projects.find({'id': req.params.projectId}, function (err, foundProject) {
     if (err) console.error(err)
     const project = foundProject[0]
