@@ -17,6 +17,11 @@ function postContactsManage (req, res) {
     if (err) console.error(err)
     users.forEach(function (user) {
       var userInfo = req.body[user.username]
+      // next iteration if userInfo is null
+      if (!userInfo) {
+        return
+      }
+
       if (!userInfo.showcontact) {
         user.profile.showcontact = false
       } else {
