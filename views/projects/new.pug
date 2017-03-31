@@ -94,7 +94,7 @@ block content
       .form-group.row
         label.col-sm-3.control-label(for='members') Project Leads
         .col-sm-7
-          select.form-control.leads-select(name='leads', id='leads', multiple=true)
+          select.form-control.multi-select-menu.leads-select(name='leads', id='leads', multiple=true)
             for lead in users
               option(value=lead.username, data-img=lead.profile.picture, selected=(user.username===lead.username))
                 if(lead.profile.name)
@@ -105,7 +105,7 @@ block content
       .form-group.row
         label.col-sm-3.control-label(for='members') Project Members
         .col-sm-7
-          select.form-control.members-select(name='members', id='members', multiple=true)
+          select.form-control.multi-select-menu.members-select(name='members', id='members', multiple=true)
             for member in users
               option(value=member.username, data-img=member.profile.picture)
                 if(member.profile.name)
@@ -154,14 +154,9 @@ block script
   script(src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js")
   script.
     $(document).ready(function() {
-      var teamSelectSettings = {
-        enableHTML: true,
-        optionLabel: function(element) {
-            return '<img class="avatar" src="'+$(element).attr('data-img')+'"> '+$(element).text()
-        }
-      }
-      $('.leads-select').multiselect(teamSelectSettings)
-      $('.members-select').multiselect(teamSelectSettings)
+      $('.multi-select-menu').each(function(){
+        new Choices(this);
+      })
 
       // github repos
     var next = 1;

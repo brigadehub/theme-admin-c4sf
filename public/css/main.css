@@ -3690,6 +3690,12 @@ p.card-author span, p.card-date span {
   opacity: 65;
 }
 
+.choices__list--multiple .choices__item {
+  font-size: inherit;
+  background-color: #0275d9;
+  border: 1px solid #0275d9;
+}
+
 [data-view='blog-list'] .tags {
   margin: 20px 0 30px;
 }
