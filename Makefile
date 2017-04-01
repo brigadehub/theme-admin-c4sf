@@ -23,10 +23,9 @@ test:
 	@$(MAKE) lint
 	@echo make test/unit
 	@$(MAKE) test/unit
-	@echo make test/e2e
-	@$(MAKE) test/e2e
 
 test/unit:
-	yarn run ava -- **/*.unit.js
+	# yarn run ava -- **/*.unit.js
+	@echo No tests specified
 
 .PHONY: lint test build link upstream install
