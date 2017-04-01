@@ -30,5 +30,5 @@ function postEventsNew (req, res) {
     if (err) console.error(err)
   })
   req.flash('success', {msg: 'Success! You have created an event.'})
-  res.redirect('/events/new')
+  res.redirect('/admin/events/manage')
 }
