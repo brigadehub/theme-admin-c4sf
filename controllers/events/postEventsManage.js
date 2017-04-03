@@ -30,10 +30,13 @@ function postEventsManage (req, res) {
       event.localstart = eventInfo.localstart
       event.location = eventInfo.location
       event.save(function (err) {
-        if (err) throw err
+        if (err) {
+          req.flash('errors', { msg: err.message })
+          return res.redirect('/admin/events/manage/')
+        }
+        req.flash('success', {msg: 'Success! You updated events.'})
+        return res.redirect('/admin/events/manage/')
       })
     })
   })
-  req.flash('success', {msg: 'Success! You updated events.'})
-  return res.redirect('/admin/events/manage/')
 }
