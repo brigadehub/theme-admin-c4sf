@@ -11,34 +11,42 @@ module.exports = {
 function postContactsManage (req, res) {
   var Users = req.models.Users
 
-  var mongooseQuery = {$or: [{'roles.core': true}, {'roles.coreLead': true}, {'roles.superAdmin': true}]}
+  var mongooseQuery = {'username': {$in: Object.keys(req.body)}}
+  var userPromises = []
 
   Users.find(mongooseQuery, function (err, users) {
     if (err) console.error(err)
     users.forEach(function (user) {
-      var userInfo = req.body[user.username]
-      // next iteration if userInfo is null
-      if (!userInfo) {
-        return
-      }
-
-      if (!userInfo.showcontact) {
-        user.profile.showcontact = false
-      } else {
-        user.profile.showcontact = true
-      }
-      user.profile.contactpagerank = userInfo.contactrank
-      user.save(function (err) {
-        if (err) {
-          // save failed
-          req.flash('errors', {msg: 'Error! Your Contacts were not updated. Error: ' + err})
-          console.log('User update failed.  Error:' + err)
-          return res.redirect('contact/edit')
+      userPromises.push(new Promise(function (resolve, reject) {
+        var userInfo = req.body[user.username]
+        // next iteration if userInfo is null
+        if (!userInfo) {
+          reject('No user information found for ' + user.username + '.')
         }
-        // save is successfull.
-        req.flash('success', {msg: 'Success! You updated contacts.'})
-        return res.redirect('contact/edit')
+        if (!userInfo.showcontact) {
+          user.profile.showcontact = false
+        } else {
+          user.profile.showcontact = true
+        }
+        user.profile.contactpagerank = userInfo.contactrank
+        user.save(function (err) {
+          if (err) {
+            // save failed
+            reject(err)
+          }
+          // save is successfull.
+          resolve()
+        })
       })
+      )
+    })
+    Promise.all(userPromises).then(function () {
+      req.flash('success', {msg: 'Success! You updated contacts.'})
+      return res.redirect('contact/edit')
+    }).catch(function (err) {
+      req.flash('errors', {msg: 'Error! Your Contacts were not updated. Error: ' + err})
+      console.log('User update failed.  Error:' + err)
+      return res.redirect('contact/edit')
     })
   })
 }
