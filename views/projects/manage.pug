@@ -14,9 +14,7 @@ block content
     if user && user.isAdmin()
       a(href='/admin/projects/new') New Project
     |&nbsp;&nbsp;&nbsp;
-    form.row.form-horizontal(action='/admin/projects/manage', method='POST', id='manageProjectsForm')
-      input(type='hidden', name='_csrf', value=_csrf)
-      table.table
+    table.table
         thread
           tr
             th Published
@@ -26,20 +24,19 @@ block content
             th Project Description
             th Project Homepage
             th
-            th Delete?
         tbody
           each project in projects
             tr
               td
                 if project.published
-                  input(type='checkbox', checked, name=project.id+'[published]', id='published')
+                  i(class="fa fa-check" aria-hidden="true")
                 else
-                  input(type='checkbox', name=project.id+'[published]', id='published')
+                  i(class="fa fa-times" aria-hidden="true")
               td
                 if project.active
-                  input(type='checkbox', checked, name=project.id+'[active]', id='active')
+                  i(class="fa fa-check" aria-hidden="true")
                 else
-                  input(type='checkbox', name=project.id+'[active]', id='active')
+                  i(class="fa fa-times" aria-hidden="true")
                 td.name= project.name
                 //- input(type='text', name=project.id+'[name]', value=project.name)
                 td.id
@@ -49,12 +46,3 @@ block content
                   a(href=project.homepage, target="_blank")= project.homepage
                 td.edit
                   a(href='/projects/'+project.id+'/settings') Edit
-              td
-                i(class="fa fa-trash-o" aria-hidden="true")
-                input(type='checkbox', name=project.id+'[delete]' id="delete")
-
-      //- .form-group.row
-      //-   .col-sm-4
-      //-     button.btn.btn.btn-primary(type='submit')
-      //-       i.fa.fa-pencilr
-      //-       | Save Changes
