@@ -212,6 +212,13 @@ block content
               th Actions
               th Main Sponsor
           tbody
+            tr
+              td
+              td
+              td
+              td No Main Sponsor
+              td
+                input(type="radio", name="mainsponsor", value=null, checked=brigade.ContainsMainSponsor===false)
             each sponsor, index in brigade.sponsors
               tr
                 td

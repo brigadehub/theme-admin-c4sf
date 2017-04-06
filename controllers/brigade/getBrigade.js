@@ -18,14 +18,23 @@ module.exports = {
  *  Controller
  */
 function getBrigade (req, res) {
-  npmSearch.search('brigadehub-admin', {limit: 100}, function (err, adminModules) {
+  npmSearch.search('brigadehub-admin', { limit: 100 }, function (err, adminModules) {
     if (err) console.error(err)
-    npmSearch.search('brigadehub-public', {limit: 100}, function (err, publicModules) {
+    npmSearch.search('brigadehub-public', { limit: 100 }, function (err, publicModules) {
       if (err) console.error(err)
+      const brigadeModel = res.locals.brigade
+      for (let i = 0, len = brigadeModel.sponsors.length; i < len; i++) {
+        if (brigadeModel.sponsors[i].main === true) {
+          brigadeModel.ContainsMainSponsor = true
+        } else {
+          brigadeModel.ContainsMainSponsor = false
+        }
+      }
+
       res.render(res.theme.admin + '/views/brigade', {
         view: 'brigade-manage',
         title: 'Brigade',
-        brigade: res.locals.brigade,
+        brigade: brigadeModel,
         publicModules,
         adminModules
       })
