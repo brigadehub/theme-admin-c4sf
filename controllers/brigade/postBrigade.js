@@ -49,8 +49,8 @@ function postBrigade (req, res, next) {
       thisBrigade.checkIn.urlLink = req.body.checkinurl
       thisBrigade.copy.description = req.body.description
     } else if (req.body['logo']) { // theme updated
-      // thisBrigade.theme.admin = req.body['theme-admin']
-      // thisBrigade.theme.public = req.body['theme-public']
+      thisBrigade.theme.admin = req.body['theme-admin']
+      thisBrigade.theme.public = req.body['theme-public']
       thisBrigade.theme.logo = req.body.logo
       thisBrigade.theme.page.title = req.body['show-title'] === 'on'
       thisBrigade.theme.page.events = req.body['show-events'] === 'on'

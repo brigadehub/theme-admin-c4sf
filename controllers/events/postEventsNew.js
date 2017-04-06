@@ -27,8 +27,11 @@ function postEventsNew (req, res) {
     return
   }
   newEvent.save(function (err) {
-    if (err) console.error(err)
+    if (err) {
+      req.flash('errors', { msg: err.message })
+      return res.redirect('/admin/events/manage/')
+    }
+    req.flash('success', {msg: 'Success! You have created an event.'})
+    res.redirect('/admin/events/manage')
   })
-  req.flash('success', {msg: 'Success! You have created an event.'})
-  res.redirect('/admin/events/manage')
 }
