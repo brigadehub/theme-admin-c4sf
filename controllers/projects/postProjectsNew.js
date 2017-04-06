@@ -1,4 +1,4 @@
-const slug = require('slug')
+const slug = require('slugify')
 const _ = require('lodash')
 const repoExists = require('repo-exists')
 
