@@ -35,6 +35,7 @@ function getBrigade (req, res) {
         view: 'brigade-manage',
         title: 'Brigade',
         brigade: brigadeModel,
+        brigadeSchema: req.schemas.flat.brigade,
         publicModules,
         adminModules
       })

@@ -38,6 +38,8 @@ html
     link(rel='stylesheet', href='/admin/css/vendors/fullcalendar.css')
     link(rel='stylesheet', href='/admin/css/vendors/bootstrap-tagsinput.css')
     link(rel='stylesheet', href='/admin/css/main.css')
+    if brigade.cssOverride && brigade.cssOverride.length
+      style(rel="stylesheet")=brigade.cssOverride
     script.
       window.__bh = {
         version: '#{brigade.buildVersion}'

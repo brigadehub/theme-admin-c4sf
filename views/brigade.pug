@@ -417,6 +417,26 @@ block content
           | Update Social Media
   .row
     hr
+  .row 
+    form.row.form-horizontal(action='/admin/brigade/css-override', method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group
+        label.col-sm-3.control-label(for='cssOverride')=brigadeSchema.cssOverride.label
+        .col-sm-7
+          if brigadeSchema.cssOverride.description && brigadeSchema.cssOverride.description.length
+            em=brigadeSchema.cssOverride.description
+            br
+            br
+          textarea.form-control.hidden(name='cssOverride', id='cssOverride')=brigade.cssOverride
+          #cssOverride-ace.code-editor
+      .form-group
+        .col-sm-offset-3.col-sm-4
+          button.btn.btn.btn-primary(type='submit')
+            i.fa.fa-paint-brush
+            | Save CSS
+
+  .row
+    hr
   .row
     .form-group
       .col-sm-3
@@ -428,3 +448,15 @@ block content
         a.btn.btn.btn-primary(type='submit', href='/api/db/csv?token='+user.jwt)
           i.fa.fa-database
           | Download CSV of DB
+block script
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript")
+  script.
+    var editor = ace.edit("cssOverride-ace");
+    var field = $('#cssOverride');
+    editor.setTheme("ace/theme/chrome");
+    editor.getSession().setMode("ace/mode/css");
+    editor.getSession().setValue(field.val());
+    editor.getSession().on('change', function(){
+      field.val(editor.getSession().getValue());
+    });
