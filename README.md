@@ -1,5 +1,7 @@
 # brigadehub-admin-c4sf
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/brigadehub/theme-admin-c4sf.svg)](https://greenkeeper.io/)
+
 [![TrustOSS Compliant](http://trustoss.org/badge_version.svg)](http://trustoss.org)
 
 Brief explanation of the project.
