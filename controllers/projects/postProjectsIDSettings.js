@@ -34,6 +34,7 @@ function postProjectsIDSettings (req, res) {
       project.geography = req.body.geography || ''
       project.homepage = req.body.homepage || ''
       project.repositories = req.body.repositories || []
+      if (typeof project.repositories === 'string') project.repositories = [project.repositories]
       project.repositories = _.reject(project.repositories, (repo) => {
         return repo === ''
       })
