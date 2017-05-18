@@ -180,7 +180,7 @@ block content
               td
                 span.static=external.target
                 select.update.hidden.form-control(name='externals['+index+'][target]', id='external-link-target')
-                  option(value='self', selected=(external.target==='self')) self
+                  option(value='_self', selected=(external.target==='_self')) _self
                   option(value='_blank', selected=(external.target==='_blank')) _blank
               td
                 button.edit-settings-row.btn.btn-primary(type='button')
@@ -197,7 +197,7 @@ block content
               input.form-control(name='new-external[link]', id='new-external-link', value='', placeholder='Destination Link')
             td
               select.form-control(name='new-external[target]', id='new-external-target')
-                option(value='self', selected) self
+                option(value='_self', selected) _self
                 option(value='_blank') _blank
             td
               button.btn.btn-primary(type='submit') Save Changes
