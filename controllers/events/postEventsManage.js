@@ -12,7 +12,6 @@ module.exports = {
 
 function postEventsManage (req, res) {
   var Events = req.models.Events
-
   var mongooseQuery = {}
   var eventPromises = []
 

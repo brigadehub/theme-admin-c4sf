@@ -35,3 +35,4 @@ function postEventsNew (req, res) {
     res.redirect('/admin/events/manage')
   })
 }
+

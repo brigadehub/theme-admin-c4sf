@@ -24,55 +24,72 @@ block content
           .col-sm-7
             input.form-control(type='location', name='location', id='location', value=event.location)
         .form-group
+          label.col-sm-3.control-label(for='latitude') Latitude
+          .col-sm-7
+            input.form-control(type='text', name='latitude', id='latitude', value=event.latitude)
+        .form-group
+          label.col-sm-3.control-label(for='longitude') Longitude
+          .col-sm-7
+            input.form-control(type='text', name='longitude', id='longitude', value=event.longitude)      
+        .form-group
           label.col-sm-3.control-label(for='host') Host
           .col-sm-7
             input.form-control(type='host', name='host', id='host', value=event.host)
         .form-group
           label.col-sm-3.control-label(for='start') Event start:
-          .col-sm-7
-            select(id="startmonth", name="startmonth")
+          .col-sm-1
+            label month:
+            select.form-control(id="startmonth", name="startmonth")
               for month in ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
                 option(value=month+"-", selected=(month == start[0]))=month
-            select(id="startday", name="startday")
+          .col-sm-1
+            label day:    
+            select.form-control(id="startday", name="startday")
               -for(var day = 1;day<31;day++){
               option(value=day+"-", selected=(day == start[1]))=day
               -}
-            select(id="startyear", name="startyear")
+          .col-sm-2
+            label year:    
+            select.form-control(id="startyear", name="startyear")
               -for(var year = 2016;year<2030;year++){
               option(value=year+" ", selected=(year == start[2]))=year
               -}
-            |---
-            select(id="starthour", name="starthour")
+          .col-sm-1
+            label hour:
+            select.form-control(id="starthour", name="starthour")
               -for(var hour = 0;hour<24;hour++){
               option(value=hour+":", selected=(hour == start[3]))=hour
               -}
-            |:
-            select(id="startminute", name="startminute")
+          .col-sm-1
+            label minute:
+            select.form-control(id="startminute", name="startminute")
               -for(var min = 0;min<60;min++){
               option(value=min+":00", selected=(min == start[4]))=min < 10 ? ('0' + min) : min
               -}
             <br/><br/>
         .form-group
           label.col-sm-3.control-label(for='end') Event End:
-          .col-sm-7
-            select(id="endmonth", name="endmonth")
+          .col-sm-1
+            select.form-control(id="endmonth", name="endmonth")
               for month in ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
                 option(value=month+"-", selected=(month == end[0]))=month
-            select(id="endday", name="endday")
+          .col-sm-1     
+            select.form-control(id="endday", name="endday")
               -for(var day = 1;day<31;day++){
               option(value=day+"-", selected=(day == end[1]))=day
               -}
-            select(id="endyear", name="endyear")
+          .col-sm-2   
+            select.form-control(id="endyear", name="endyear")
               -for(var year = 2016;year<2030;year++){
               option(value=year+" ", selected=(year == end[2]))=year
               -}
-            |---
-            select(id="endhour", name="endhour")
+          .col-sm-1
+            select.form-control(id="endhour", name="endhour")
               -for(var hour = 0;hour<24;hour++){
               option(value=hour+":", selected=(hour == end[3]))=hour
               -}
-            |:
-            select(id="endminute", name="endminute")
+          .col-sm-1
+            select.form-control(id="endminute", name="endminute")
               -for(var min = 0;min<60;min++){
               option(value=min+":00", selected=(min == end[4]))=min < 10 ? ('0' + min) : min
               -}
@@ -91,4 +108,8 @@ block content
             button.btn.btn.btn-primary(type='submit')
               i.fa.fa-pencil
               | Update Event
-    a(href='/events/manage') Back
+
+    .col-sm-12
+      a(href='/admin/events/manage') Manage Events
+      | &nbsp;&nbsp;|&nbsp;         
+      a(href='/events/' + event.id) Back
